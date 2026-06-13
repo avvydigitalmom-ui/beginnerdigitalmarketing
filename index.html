@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Product Guide | @avvy_digitalmom</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blush:      #F5D6D6;
+  --blush-deep: #C9858A;
+  --gold:       #C9A84C;
+  --gold-light: #EDD98A;
+  --cream:      #FFF9F5;
+  --white:      #FFFFFF;
+  --charcoal:   #2C2C2C;
+  --mid:        #5A5A5A;
+  --soft:       #9A8A8A;
+  --rose-muted: #E8C4C4;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--charcoal);
+  line-height: 1.6;
+}
+
+/* ─── COVER ─── */
+.cover {
+  background: linear-gradient(160deg, #f7e0e0 0%, #fdf4ef 55%, #f9edd8 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 32px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.13) 0%, transparent 70%);
+  top: -80px; right: -80px;
+  pointer-events: none;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,133,138,0.12) 0%, transparent 70%);
+  bottom: -60px; left: -60px;
+  pointer-events: none;
+}
+.cover-badge {
+  display: inline-block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blush-deep);
+  border: 1px solid var(--rose-muted);
+  padding: 7px 20px;
+  border-radius: 100px;
+  margin-bottom: 32px;
+  background: rgba(255,255,255,0.6);
+}
+.cover-stars {
+  font-size: 1.3rem;
+  color: var(--gold);
+  letter-spacing: 0.3em;
+  margin-bottom: 20px;
+}
+.cover h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.2rem, 9vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  color: var(--charcoal);
+  margin-bottom: 24px;
+}
+.cover h1 em {
+  font-style: italic;
+  color: var(--blush-deep);
+}
+.cover-sub {
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  color: var(--mid);
+  max-width: 420px;
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+.cover-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-bottom: 28px;
+}
+.cover-handle {
+  display: inline-block;
+  background: rgba(255,255,255,0.75);
+  border: 1px solid var(--rose-muted);
+  padding: 10px 28px;
+  border-radius: 100px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--blush-deep);
+  letter-spacing: 0.08em;
+}
+.cover-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blush-deep), var(--gold));
+  margin: 28px auto;
+  border-radius: 2px;
+}
+
+/* ─── ABOUT ─── */
+.about-page {
+  background: var(--white);
+  padding: 72px 32px;
+  text-align: center;
+  border-bottom: 2px solid var(--blush);
+}
+.about-badge {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blush-deep);
+  border: 1px solid var(--rose-muted);
+  padding: 6px 18px;
+  border-radius: 100px;
+  margin-bottom: 32px;
+}
+.about-page p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.05rem, 2.5vw, 1.22rem);
+  color: var(--mid);
+  max-width: 560px;
+  margin: 0 auto 18px;
+  line-height: 1.7;
+}
+.about-cta-btn {
+  display: inline-block;
+  margin-top: 36px;
+  background: var(--blush);
+  color: var(--charcoal);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 13px 32px;
+  border-radius: 100px;
+  text-decoration: none;
+  border: none;
+}
+
+/* ─── TOC ─── */
+.toc {
+  padding: 64px 32px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+.toc-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-bottom: 12px;
+}
+.toc h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 40px;
+}
+.toc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+.toc-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border: 1.5px solid var(--blush);
+  border-radius: 8px;
+  background: var(--white);
+  text-decoration: none;
+  color: var(--charcoal);
+  transition: border-color 0.2s, background 0.2s;
+}
+.toc-item:hover {
+  border-color: var(--gold);
+  background: #fffbf4;
+}
+.toc-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--blush-deep);
+  min-width: 32px;
+}
+.toc-title {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--charcoal);
+}
+
+/* ─── CHAPTER SHARED ─── */
+.chapter {
+  padding: 64px 32px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+.chapter + .chapter {
+  border-top: 1px solid var(--blush);
+}
+.ch-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-bottom: 10px;
+}
+.ch-header {
+  margin-bottom: 32px;
+}
+.ch-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(4rem, 10vw, 7rem);
+  font-weight: 700;
+  color: var(--blush);
+  line-height: 1;
+  float: left;
+  margin-right: 16px;
+  margin-top: -8px;
+}
+.ch-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  color: var(--charcoal);
+  line-height: 1.2;
+  padding-top: 12px;
+}
+.ch-title em { font-style: italic; color: var(--blush-deep); }
+.ch-title span { color: var(--gold); font-style: normal; }
+.ch-body {
+  clear: both;
+  font-size: 0.97rem;
+  color: var(--mid);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.ch-quote {
+  border-left: 3px solid var(--gold);
+  padding: 16px 24px;
+  margin: 28px 0;
+  background: #fffbf2;
+  border-radius: 0 8px 8px 0;
+}
+.ch-quote p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.12rem;
+  font-style: italic;
+  color: var(--charcoal);
+  line-height: 1.6;
+}
+.mama-tip {
+  border-left: 4px solid var(--gold);
+  background: linear-gradient(90deg, #fffbf0, var(--cream));
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+  margin-top: 24px;
+}
+.mama-tip strong {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.mama-tip p {
+  font-size: 0.9rem;
+  color: var(--mid);
+  line-height: 1.6;
+}
+.tag-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0;
+}
+.tag {
+  display: inline-block;
+  padding: 8px 18px;
+  border: 1.5px solid var(--rose-muted);
+  border-radius: 100px;
+  font-size: 0.84rem;
+  color: var(--charcoal);
+  background: var(--white);
+}
+.tag.gold-tag {
+  border-color: var(--gold-light);
+  background: #fffbf0;
+  color: #7a6010;
+}
+.step-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 24px 0;
+}
+.step-list li {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--blush);
+  color: var(--blush-deep);
+  font-weight: 700;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-content h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 4px;
+}
+.step-content p {
+  font-size: 0.88rem;
+  color: var(--mid);
+  line-height: 1.55;
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+@media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+.card {
+  border: 1.5px solid var(--blush);
+  border-radius: 10px;
+  padding: 22px 18px;
+  background: var(--white);
+}
+.card.gold-card { border-color: var(--gold-light); background: #fffcf2; }
+.card h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blush-deep);
+  margin-bottom: 10px;
+}
+.card.gold-card h4 { color: #9a7020; }
+.card p, .card ul { font-size: 0.87rem; color: var(--mid); line-height: 1.55; }
+.card ul { padding-left: 16px; }
+.card ul li { margin-bottom: 6px; }
+.rule-list {
+  list-style: none;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+.rule-list li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--blush);
+  font-size: 0.92rem;
+  color: var(--mid);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.rule-list li::before {
+  content: '✦';
+  color: var(--gold);
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  margin-top: 3px;
+}
+.compare-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+@media (max-width: 560px) { .compare-row { grid-template-columns: 1fr; } }
+.compare-bad {
+  border: 1.5px solid #e8c4c4;
+  border-radius: 10px;
+  padding: 20px;
+  background: #fff8f8;
+}
+.compare-good {
+  border: 1.5px solid var(--gold-light);
+  border-radius: 10px;
+  padding: 20px;
+  background: #fffcf2;
+}
+.compare-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.compare-bad .compare-label { color: #c45a5a; }
+.compare-good .compare-label { color: #9a7020; }
+.compare-example {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+}
+.compare-note { font-size: 0.83rem; color: var(--mid); }
+.alert-box {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: var(--white);
+  border: 1.5px solid var(--gold-light);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin: 24px 0;
+}
+.alert-icon { font-size: 1.2rem; flex-shrink: 0; }
+.alert-text { font-size: 0.88rem; color: var(--mid); line-height: 1.55; }
+.alert-text strong { color: var(--charcoal); }
+.warn-box {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: #fff8f8;
+  border: 1.5px solid var(--rose-muted);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin: 24px 0;
+}
+.warn-icon { font-size: 1.2rem; flex-shrink: 0; }
+.warn-text { font-size: 0.88rem; color: var(--mid); line-height: 1.55; }
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 24px 0;
+}
+@media (max-width: 600px) { .three-col { grid-template-columns: 1fr; } }
+.platform-card {
+  border: 1.5px solid var(--blush);
+  border-radius: 10px;
+  padding: 22px 16px;
+  background: var(--white);
+  text-align: center;
+}
+.platform-card .p-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+.platform-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--charcoal); margin-bottom: 4px; }
+.platform-card .p-role {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blush-deep);
+  margin-bottom: 8px;
+}
+.platform-card p { font-size: 0.83rem; color: var(--mid); line-height: 1.45; }
+.pricing-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+@media (max-width: 560px) { .pricing-row { grid-template-columns: 1fr; } }
+.price-card {
+  border: 1.5px solid var(--blush);
+  border-radius: 12px;
+  padding: 28px 20px;
+  text-align: center;
+  background: var(--white);
+}
+.price-card.featured { border-color: var(--gold); background: #fffcf2; }
+.price-tag {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--blush-deep);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.price-card.featured .price-tag { color: var(--gold); }
+.price-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-bottom: 12px;
+}
+.price-desc { font-size: 0.87rem; color: var(--mid); line-height: 1.5; }
+.goal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+@media (max-width: 560px) { .goal-grid { grid-template-columns: 1fr; } }
+.goal-card {
+  border: 1.5px solid var(--blush);
+  border-radius: 10px;
+  padding: 22px 18px;
+  background: var(--white);
+}
+.goal-card.wide { grid-column: 1 / -1; border-color: var(--gold-light); background: #fffcf2; }
+.goal-card h4 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blush-deep);
+  margin-bottom: 8px;
+}
+.goal-card.wide h4 { color: #9a7020; }
+.goal-card p { font-size: 0.88rem; color: var(--mid); line-height: 1.55; }
+.stars {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--gold);
+  letter-spacing: 0.3em;
+  margin: 36px 0 0;
+}
+
+/* ─── SECTION DIVIDER BAND ─── */
+.band {
+  background: linear-gradient(90deg, var(--blush) 0%, #fce8e8 50%, var(--blush) 100%);
+  padding: 20px 32px;
+  text-align: center;
+}
+.band p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--blush-deep);
+  letter-spacing: 0.02em;
+}
+
+/* ─── CTA SECTION ─── */
+.cta-section {
+  background: linear-gradient(155deg, #2C2C2C 0%, #1a1a1a 100%);
+  padding: 80px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 65%);
+  top: -150px; right: -100px;
+  pointer-events: none;
+}
+.cta-section::after {
+  content: '';
+  position: absolute;
+  width: 350px; height: 350px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,133,138,0.1) 0%, transparent 65%);
+  bottom: -80px; left: -80px;
+  pointer-events: none;
+}
+.cta-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+.cta-eyebrow {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.4);
+  padding: 6px 20px;
+  border-radius: 100px;
+  margin-bottom: 28px;
+}
+.cta-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 6vw, 3.6rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.cta-section h2 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.cta-section p {
+  font-size: 0.97rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+.cta-problem-list {
+  list-style: none;
+  margin: 0 auto 40px;
+  max-width: 500px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cta-problem-list li {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.75);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+}
+.cta-problem-list li::before {
+  content: '→';
+  color: var(--gold);
+  flex-shrink: 0;
+  font-weight: 700;
+}
+.cta-pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 0 auto 40px;
+  max-width: 600px;
+}
+.cta-pillar {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 8px;
+  padding: 18px 14px;
+  text-align: center;
+}
+.cta-pillar-icon { font-size: 1.4rem; display: block; margin-bottom: 8px; }
+.cta-pillar h4 {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.cta-pillar p { font-size: 0.78rem; color: rgba(255,255,255,0.6); line-height: 1.4; }
+.cta-btn {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--charcoal);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 18px 52px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  box-shadow: 0 6px 28px rgba(201,168,76,0.35);
+}
+.cta-btn:hover { opacity: 0.88; }
+.cta-price-note {
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.03em;
+}
+.cta-price-note strong { color: rgba(255,255,255,0.75); }
+.cta-divider {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blush-deep), var(--gold));
+  margin: 40px auto;
+  border-radius: 2px;
+}
+.proof-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+.proof-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 18px;
+  text-align: left;
+}
+.proof-card p {
+  font-size: 0.84rem;
+  color: rgba(255,255,255,0.8);
+  font-style: italic;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.proof-card span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.cta-faq {
+  max-width: 560px;
+  margin: 0 auto 40px;
+  text-align: left;
+}
+.cta-faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 0; }
+.cta-faq-item h4 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.cta-faq-item p {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  background: var(--white);
+  border-top: 2px solid var(--blush);
+  text-align: center;
+  padding: 32px 24px;
+}
+.footer p {
+  font-size: 0.78rem;
+  color: var(--soft);
+  line-height: 1.7;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.footer strong { color: var(--blush-deep); }
+
+/* ─── PRINT ─── */
+@media print {
+  .chapter, .cover, .about-page, .toc { page-break-after: auto; }
+  .cover { min-height: auto; padding: 40px 24px; }
+  a { color: inherit; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<section class="cover">
+  <div class="cover-badge">The Complete Beginner's Resource</div>
+  <div class="cover-stars">✦ ✦ ✦</div>
+  <h1>Digital<br><em>Product</em><br>Guide</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-sub">Creating, Marketing & Monetizing your own digital products — even if you're starting from scratch</p>
+  <p class="cover-tag">For Beginner Creators &amp; Mompreneurs</p>
+  <span class="cover-handle">@avvy_digitalmom</span>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section class="about-page">
+  <div class="about-badge">About Me</div>
+  <p>I'm Avvy — a toddler mom from Canada who restarted digital marketing in October 2025 after completely failing on my first account 😭</p>
+  <p>But instead of giving up, I learned, implemented, stayed consistent, and finally started getting consistent sales on this account.</p>
+  <p>That's why everything you see in my store is something I personally use, trust, and genuinely stand behind 💗</p>
+  <p>Whether you're a silent watcher, completely overwhelmed, or just need someone to guide you a little… my DMs are always open 🫶</p>
+  <p>Results will always vary depending on effort, consistency, and implementation… but I promise I'll always keep it real with you here.</p>
+  <a href="#chapter-1" class="about-cta-btn">Let's Get Started →</a>
+</section>
+
+<!-- ══ TOC ══ -->
+<section class="toc">
+  <p class="toc-eyebrow">Inside This Guide</p>
+  <h2>What lies ahead…</h2>
+  <div class="toc-grid">
+    <a class="toc-item" href="#chapter-1"><span class="toc-num">01</span><span class="toc-title">What in the Niche Are You Doing</span></a>
+    <a class="toc-item" href="#chapter-2"><span class="toc-num">02</span><span class="toc-title">Naming & Branding Your Business</span></a>
+    <a class="toc-item" href="#chapter-3"><span class="toc-num">03</span><span class="toc-title">What in the Heck to Sell</span></a>
+    <a class="toc-item" href="#chapter-4"><span class="toc-num">04</span><span class="toc-title">Naming Your Product So It Sells</span></a>
+    <a class="toc-item" href="#chapter-5"><span class="toc-num">05</span><span class="toc-title">Creating Your Product</span></a>
+    <a class="toc-item" href="#chapter-6"><span class="toc-num">06</span><span class="toc-title">Pricing (The Good Stuff)</span></a>
+    <a class="toc-item" href="#chapter-7"><span class="toc-num">07</span><span class="toc-title">Creepin' On Your Competition</span></a>
+    <a class="toc-item" href="#chapter-8"><span class="toc-num">08</span><span class="toc-title">Multi-Platform Marketing</span></a>
+    <a class="toc-item" href="#chapter-9"><span class="toc-num">09</span><span class="toc-title">TikTok Strategy</span></a>
+    <a class="toc-item" href="#chapter-10"><span class="toc-num">10</span><span class="toc-title">Instagram — Your Nurture Platform</span></a>
+    <a class="toc-item" href="#chapter-11"><span class="toc-num">11</span><span class="toc-title">Pinterest — Long Game Wins</span></a>
+    <a class="toc-item" href="#chapter-12"><span class="toc-num">12</span><span class="toc-title">Setting Up Your Beacons</span></a>
+    <a class="toc-item" href="#chapter-13"><span class="toc-num">13</span><span class="toc-title">Setting Goals</span></a>
+    <a class="toc-item" href="#chapter-14"><span class="toc-num">14</span><span class="toc-title">Launching</span></a>
+    <a class="toc-item" href="#chapter-15"><span class="toc-num">15</span><span class="toc-title">Getting Testimonials</span></a>
+    <a class="toc-item" href="#chapter-16"><span class="toc-num">16</span><span class="toc-title">Get Your Name Out There</span></a>
+  </div>
+</section>
+
+<!-- ══ CH 01 ══ -->
+<div class="band"><p>"Your niche = the problem you solve — not the person you solve it for."</p></div>
+<section class="chapter" id="chapter-1">
+  <p class="ch-eyebrow">Chapter One</p>
+  <div class="ch-header">
+    <span class="ch-num">01</span>
+    <h2 class="ch-title">What in the <span>Niche</span> Are You Doing?</h2>
+  </div>
+  <p class="ch-body">A niche is a specialized segment of a broader market — focused on a specific audience with distinct needs and preferences. Choosing yours is the single most important step you'll take in this journey.</p>
+  <div class="ch-quote"><p>Your niche = the problem you solve — not the person you solve it for.</p></div>
+  <p class="ch-body">Figure out the problem you want to solve for people. Then pick something you could genuinely talk about for hours, because consistency is everything.</p>
+  <p style="font-size:0.78rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--soft);margin-bottom:14px;">The Top 10 Niches</p>
+  <div class="tag-grid">
+    <span class="tag">💰 Personal Finance</span>
+    <span class="tag">🌿 Health & Wellness</span>
+    <span class="tag">🍽️ Food & Drink</span>
+    <span class="tag">💪 Fitness</span>
+    <span class="tag">✈️ Travel</span>
+    <span class="tag">🏠 Home Improvement</span>
+    <span class="tag">💕 Relationships</span>
+    <span class="tag">📚 Education</span>
+    <span class="tag">👶 Parenting</span>
+    <span class="tag">🌲 Outdoor Lifestyle</span>
+  </div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Pick the niche that lights you up. You'll be creating content around it daily — choose something you actually love talking about!</p>
+  </div>
+</section>
+
+<!-- ══ CH 02 ══ -->
+<div class="band"><p>"Women buy from women they trust. Your story IS your brand."</p></div>
+<section class="chapter" id="chapter-2">
+  <p class="ch-eyebrow">Chapter Two</p>
+  <div class="ch-header">
+    <span class="ch-num">02</span>
+    <h2 class="ch-title">Naming &amp; <em>Branding</em> Your Business</h2>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h4>✏️ Naming Tips</h4>
+      <ul>
+        <li>Keep it simple and easy to remember</li>
+        <li>Reflect your brand identity</li>
+        <li>Check domain availability on GoDaddy, Namecheap, or Google Domains</li>
+        <li>Research competitors to stay unique</li>
+      </ul>
+    </div>
+    <div class="card gold-card">
+      <h4>🎨 Branding Tips</h4>
+      <p>Define your logo, color scheme, and typography. Be authentic and consistent across all platforms. Your brand voice should feel like YOU — warm, trustworthy, and real.</p>
+    </div>
+  </div>
+  <ul class="step-list">
+    <li><span class="step-num">1</span><div class="step-content"><h4>Develop a Brand Strategy</h4><p>Define your goals, target audience, messaging, and tone of voice before anything else.</p></div></li>
+    <li><span class="step-num">2</span><div class="step-content"><h4>Create a Consistent Identity</h4><p>Use the same colors, fonts, and messaging across TikTok, Instagram, Pinterest, and your Stan Store.</p></div></li>
+    <li><span class="step-num">3</span><div class="step-content"><h4>Be Authentically You</h4><p>Women buy from women they trust. Your story IS your brand. Share it generously.</p></div></li>
+  </ul>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Branding is a long-term investment. Take the time to build something you're proud of — it will pay off.</p>
+  </div>
+</section>
+
+<!-- ══ CH 03 ══ -->
+<div class="band"><p>"Make it once. Get paid on it forever."</p></div>
+<section class="chapter" id="chapter-3">
+  <p class="ch-eyebrow">Chapter Three</p>
+  <div class="ch-header">
+    <span class="ch-num">03</span>
+    <h2 class="ch-title">What in the Heck <em>to Sell?</em></h2>
+  </div>
+  <p class="ch-body">There are SO many digital product options — the key is choosing one that aligns with your niche AND your strengths. The best part? You make it once and get paid on it forever.</p>
+  <ul class="rule-list">
+    <li>eBooks &amp; Guides</li>
+    <li>Stock Photos &amp; Graphics</li>
+    <li>Canva Templates</li>
+    <li>Spreadsheet Templates (Google Sheets)</li>
+    <li>Online Courses &amp; Educational Content</li>
+    <li>Virtual Services</li>
+    <li>Music &amp; Audio</li>
+    <li>Digital Books</li>
+  </ul>
+  <div class="ch-quote"><p>Think about what you already use in your business that your audience would benefit from. That's your golden product idea.</p></div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Don't overthink it. The best digital product idea is already living inside your daily workflow — you just haven't packaged it yet.</p>
+  </div>
+</section>
+
+<!-- ══ CH 04 ══ -->
+<div class="band"><p>"Clear is ALWAYS better than cutesy or clever."</p></div>
+<section class="chapter" id="chapter-4">
+  <p class="ch-eyebrow">Chapter Four</p>
+  <div class="ch-header">
+    <span class="ch-num">04</span>
+    <h2 class="ch-title">Naming Your Product <span>So It Sells</span></h2>
+  </div>
+  <p class="ch-body">Your product name is your first sales pitch. It needs to be enticing AND crystal clear. If someone is confused about what it is, they will not buy.</p>
+  <div class="ch-quote"><p>Clear is ALWAYS better than cutesy or clever. You want your viewer to instantly know this product is for them.</p></div>
+  <p style="font-size:0.78rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--soft);margin-bottom:14px;">Power Words to Use in Your Name</p>
+  <div class="tag-grid">
+    <span class="tag gold-tag">Guide</span>
+    <span class="tag gold-tag">How To</span>
+    <span class="tag gold-tag">101</span>
+    <span class="tag gold-tag">Ultimate</span>
+    <span class="tag gold-tag">Framework</span>
+    <span class="tag gold-tag">Blueprint</span>
+    <span class="tag gold-tag">Playbook</span>
+    <span class="tag gold-tag">Starter Kit</span>
+  </div>
+  <div class="compare-row">
+    <div class="compare-bad">
+      <p class="compare-label">❌ Won't Make Sales</p>
+      <p class="compare-example">"My Favorite Recipes"</p>
+      <p class="compare-note">Too vague — no clear benefit, no urgency.</p>
+    </div>
+    <div class="compare-good">
+      <p class="compare-label">✅ Will Make Sales</p>
+      <p class="compare-example">"30 Days of Kid-Friendly Recipes"</p>
+      <p class="compare-note">Specific, benefit-driven, and speaks directly to the buyer.</p>
+    </div>
+  </div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>"Create it once. Sell it forever." — but only if the name makes someone stop scrolling.</p>
+  </div>
+</section>
+
+<!-- ══ CH 05 ══ -->
+<div class="band"><p>"Don't overthink this. Two free tools are all you need."</p></div>
+<section class="chapter" id="chapter-5">
+  <p class="ch-eyebrow">Chapter Five</p>
+  <div class="ch-header">
+    <span class="ch-num">05</span>
+    <h2 class="ch-title">Creating Your <em>Product</em></h2>
+  </div>
+  <p class="ch-body">Don't overthink this! Two free tools are all you need to get started and create a professional, beautiful digital product.</p>
+  <div class="two-col">
+    <div class="card">
+      <h4>🎨 Canva (Free)</h4>
+      <p>Perfect for eBooks, how-to guides, and templates. Design your guide, then download it as a PDF to sell. The free version is more than enough to start.</p>
+    </div>
+    <div class="card gold-card">
+      <h4>📊 Google Sheets (Free)</h4>
+      <p>Ideal for spreadsheet templates you already use in your business. Package your systems and sell them to your audience.</p>
+    </div>
+  </div>
+  <p style="font-size:0.78rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--soft);margin:24px 0 14px;">Leveraging AI (ChatGPT)</p>
+  <ul class="rule-list">
+    <li>Use it to generate blog posts, captions, and product descriptions</li>
+    <li>Frame your prompts clearly for the best results</li>
+    <li>Use it as a virtual assistant during your creative process</li>
+    <li>Always review &amp; edit for your personal voice before publishing</li>
+  </ul>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Your first product doesn't have to be perfect — it has to be published. Done is better than perfect every single time.</p>
+  </div>
+</section>
+
+<!-- ══ CH 06 ══ -->
+<div class="band"><p>"You want people to feel like they won the lottery for the price they paid."</p></div>
+<section class="chapter" id="chapter-6">
+  <p class="ch-eyebrow">Chapter Six</p>
+  <div class="ch-header">
+    <span class="ch-num">06</span>
+    <h2 class="ch-title">Pricing <em>(The Good Stuff)</em></h2>
+  </div>
+  <p class="ch-body">Pricing is more than a number — it's a strategy. Keep your offers low-ticket, price with room to grow, and always make the VALUE exceed the price tag.</p>
+  <div class="pricing-row">
+    <div class="price-card">
+      <div class="price-tag">$7–$27</div>
+      <div class="price-label">Impulse Buy</div>
+      <p class="price-desc">Easy yes. Build trust first — then upsell later. Endings in $7 are statistically best for conversions.</p>
+    </div>
+    <div class="price-card featured">
+      <div class="price-tag">$47</div>
+      <div class="price-label">✨ Core Offer</div>
+      <p class="price-desc">Sweet spot for beginner creators. High perceived value without a high barrier to buy.</p>
+    </div>
+  </div>
+  <div class="ch-quote"><p>To make $4,000/month you need to sell 148 products at $27, or 85 products at $47. Endings in $7 are statistically best for conversions.</p></div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>You want people to feel like they won the lottery for the price they paid. Overdeliver on value and they'll come back to buy everything you create.</p>
+  </div>
+</section>
+
+<!-- ══ CH 07 ══ -->
+<div class="band"><p>"Do this research to confirm and refine — not to reinvent."</p></div>
+<section class="chapter" id="chapter-7">
+  <p class="ch-eyebrow">Chapter Seven</p>
+  <div class="ch-header">
+    <span class="ch-num">07</span>
+    <h2 class="ch-title">Creepin' On Your <em>Competition</em></h2>
+  </div>
+  <p class="ch-body">Here's why we wait to research competitors until <em>after</em> your product is mostly done — it's so easy to copy ideas once you see them! Do this research to confirm and refine, not to reinvent.</p>
+  <p style="font-size:0.78rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--soft);margin-bottom:14px;">Where to Research</p>
+  <div class="tag-grid">
+    <span class="tag">📸 Instagram</span>
+    <span class="tag">👥 Facebook</span>
+    <span class="tag">🎵 TikTok</span>
+    <span class="tag">📌 Pinterest</span>
+    <span class="tag">🛒 Stan Store</span>
+    <span class="tag">🛍️ Etsy</span>
+    <span class="tag">Beacons</span>
+  </div>
+  <div class="alert-box">
+    <span class="alert-icon">🔍</span>
+    <div class="alert-text"><strong>Stan Store Hack:</strong> Stan Store has a list of creators selling digital products organized by niche. Explore it for research inspiration — but always add YOUR unique spin.</div>
+  </div>
+  <div class="ch-quote"><p>See content getting crazy views in your niche? Take that idea, add your own twist, and post it. No need to reinvent the wheel — just make it yours.</p></div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Competition research is a confidence booster, not a comparison trap. Use it to validate that your idea has a market — then go make it better.</p>
+  </div>
+</section>
+
+<!-- ══ CH 08 ══ -->
+<div class="band"><p>"Post once, multiply everywhere. Work smarter, not harder."</p></div>
+<section class="chapter" id="chapter-8">
+  <p class="ch-eyebrow">Chapter Eight</p>
+  <div class="ch-header">
+    <span class="ch-num">08</span>
+    <h2 class="ch-title">The Marketing <span>Traffic</span></h2>
+  </div>
+  <p class="ch-body">99% of people aren't using social media properly to grow their business. Here's the free three-platform strategy that actually works.</p>
+  <div class="three-col">
+    <div class="platform-card">
+      <span class="p-icon">🎵</span>
+      <h4>TikTok</h4>
+      <p class="p-role">Outreach</p>
+      <p>Where you reach brand new potential customers at scale.</p>
+    </div>
+    <div class="platform-card">
+      <span class="p-icon">📸</span>
+      <h4>Instagram</h4>
+      <p class="p-role">Nurture + Sell</p>
+      <p>Where you build trust, connection, and close the sale.</p>
+    </div>
+    <div class="platform-card">
+      <span class="p-icon">📌</span>
+      <h4>Pinterest</h4>
+      <p class="p-role">Long-term Traffic</p>
+      <p>Long-term traffic engine that works while you sleep.</p>
+    </div>
+  </div>
+  <div class="ch-quote"><p>You can repurpose content across all three platforms — post once, multiply everywhere. Work smarter, not harder.</p></div>
+  <p style="font-size:0.78rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--soft);margin:24px 0 14px;">Where Else You Can Sell</p>
+  <div class="tag-grid">
+    <span class="tag">Etsy</span><span class="tag">Payhip</span><span class="tag">Teachable</span><span class="tag">Gumroad</span><span class="tag">Amazon</span><span class="tag">Udemy</span><span class="tag">WooCommerce</span><span class="tag">Beacons</span>
+  </div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>One piece of content. Three platforms. Infinite reach. You don't need to create more — you need to distribute smarter.</p>
+  </div>
+</section>
+
+<!-- ══ CH 09 ══ -->
+<div class="band"><p>"TikTok users are ready to buy — they just don't want to feel sold to."</p></div>
+<section class="chapter" id="chapter-9">
+  <p class="ch-eyebrow">Chapter Nine</p>
+  <div class="ch-header">
+    <span class="ch-num">09</span>
+    <h2 class="ch-title">TikTok <em>Strategy</em></h2>
+  </div>
+  <p class="ch-body">The reach on TikTok right now is extraordinary. But you have to be strategic — users are ready to buy low-ticket offers, but they do not want to feel sold to.</p>
+  <ul class="step-list">
+    <li><span class="step-num">1</span><div class="step-content"><h4>Create a Fresh Personal Account</h4><p>Don't use your old scroll account. Create a new one — NOT a business account (they get fewer views). Keep it niche-only.</p></div></li>
+    <li><span class="step-num">2</span><div class="step-content"><h4>Same Username Everywhere</h4><p>Use the same handle across TikTok, Instagram, and Pinterest so followers can find you easily.</p></div></li>
+    <li><span class="step-num">3</span><div class="step-content"><h4>Hit 1K Followers First on TikTok</h4><p>This unlocks the LIVE feature and lets you add a link in bio — which is where your sales happen.</p></div></li>
+    <li><span class="step-num">4</span><div class="step-content"><h4>Post Personal Storytelling Content</h4><p>TikTok is rewarding authentic, voice-over storytelling. Short-form (7–10 seconds) still gets the most engagement.</p></div></li>
+  </ul>
+  <div class="warn-box">
+    <span class="warn-icon">🚫</span>
+    <div class="warn-text">Don't do follow trains — they won't give you engaged followers. Quality over quantity every time.</div>
+  </div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Your first 90 days on TikTok is about testing hooks and finding your voice. Don't chase viral — chase connection.</p>
+  </div>
+</section>
+
+<!-- ══ CH 10 ══ -->
+<div class="band"><p>"It takes an average of 7 touchpoints before someone purchases from you."</p></div>
+<section class="chapter" id="chapter-10">
+  <p class="ch-eyebrow">Chapter Ten</p>
+  <div class="ch-header">
+    <span class="ch-num">10</span>
+    <h2 class="ch-title">Instagram — Your <span>Nurture</span> Platform</h2>
+  </div>
+  <p class="ch-body">More people are on Instagram right now than Facebook. It's your connection hub — the place where followers become buyers because they <em>trust</em> you.</p>
+  <div class="two-col">
+    <div class="card">
+      <h4>📖 Stories</h4>
+      <p>Use polls, sliders, and Q&As to build real connection with your audience. Reply to DMs. Respond to comments. Engagement is everything.</p>
+    </div>
+    <div class="card gold-card">
+      <h4>🎬 Reels</h4>
+      <p>Repurpose your TikToks as Reels — just remove the TikTok watermark first. TikTok trends are 2–3 weeks ahead of Instagram, so you'll always be on time.</p>
+    </div>
+  </div>
+  <div class="ch-quote"><p>It takes an average of 7 touchpoints before someone purchases from you. Show up consistently in Stories and Reels.</p></div>
+  <div class="alert-box">
+    <span class="alert-icon">🔁</span>
+    <div class="alert-text"><strong>Repurpose Everything:</strong> One TikTok video = one Instagram Reel = one Pinterest Idea Pin. Three platforms, one piece of content.</div>
+  </div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Instagram is where the sale closes. Warm them up in Stories. Show them the transformation in Reels. Drop the link. That's the loop.</p>
+  </div>
+</section>
+
+<!-- ══ CH 11 ══ -->
+<div class="band"><p>"Start posting now — your future self will thank you."</p></div>
+<section class="chapter" id="chapter-11">
+  <p class="ch-eyebrow">Chapter Eleven</p>
+  <div class="ch-header">
+    <span class="ch-num">11</span>
+    <h2 class="ch-title">Pinterest — <em>The Long Game</em></h2>
+  </div>
+  <p class="ch-body">Pinterest is a search engine, not just social media. Pins can drive traffic to your product for <em>years</em>. Start posting now — your future self will thank you.</p>
+  <ul class="step-list">
+    <li><span class="step-num">1</span><div class="step-content"><h4>Do Keyword Research</h4><p>Search your niche topics in Pinterest and note what people are already searching. Keep a running list on your phone.</p></div></li>
+    <li><span class="step-num">2</span><div class="step-content"><h4>Convert to a Business Account</h4><p>Claim your Stan Store link as your website. Write your bio using the keywords you researched + a clear call to action.</p></div></li>
+    <li><span class="step-num">3</span><div class="step-content"><h4>Create 10 Boards</h4><p>Use simple, searchable names. Think like your ideal buyer would search.</p></div></li>
+    <li><span class="step-num">4</span><div class="step-content"><h4>Post Daily — Start with 1 Idea Pin</h4><p>Work up to 10–15 pins per day. One piece of content can become 5–10 pins by swapping the image and title.</p></div></li>
+  </ul>
+  <div class="alert-box">
+    <span class="alert-icon">📌</span>
+    <div class="alert-text"><strong>Idea Pins</strong> are being pushed more than static pins right now — take advantage of this while the algorithm favors them!</div>
+  </div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Pinterest is the only platform where a post you made 2 years ago can still be your best-performing piece of content today. Plant seeds early.</p>
+  </div>
+</section>
+
+<!-- ══ CH 12 ══ -->
+<div class="band"><p>"Your sales page doesn't need to be long — it needs to be really, really good."</p></div>
+<section class="chapter" id="chapter-12">
+  <p class="ch-eyebrow">Chapter Twelve</p>
+  <div class="ch-header">
+    <span class="ch-num">12</span>
+    <h2 class="ch-title">Setting Up Your <em>Beacons</em></h2>
+  </div>
+  <p class="ch-body">Think of your Beacons as your website and link-in-bio all in one. You can set it up in under 15 minutes and start selling before spending a single penny.</p>
+  <div class="ch-quote"><p>You can begin building your sales page before your product is even finished. The page doesn't need to be long — it needs to be really, really good.</p></div>
+  <ul class="step-list">
+    <li><span class="step-num">1</span><div class="step-content"><h4>Start for Free</h4><p>No credit card needed to explore. Get familiar with all the features before committing.</p></div></li>
+    <li><span class="step-num">2</span><div class="step-content"><h4>Build a Strong Sales Page</h4><p>Focus on the OUTCOME your product delivers — not just its features. Sell the transformation.</p></div></li>
+    <li><span class="step-num">3</span><div class="step-content"><h4>Connect systeme.io for Email Collection</h4><p>Free up to 2,000 subscribers. Your email list is an asset no algorithm can take from you.</p></div></li>
+  </ul>
+  <div class="alert-box">
+    <span class="alert-icon">📧</span>
+    <div class="alert-text"><strong>Email list = long-term income.</strong> Every email you collect is a direct line to your buyers for every future product you create.</div>
+  </div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Don't wait for your product to be perfect before you build your page. Build the anticipation. Let people know it's coming. Pre-sell.</p>
+  </div>
+</section>
+
+<!-- ══ CH 13 ══ -->
+<div class="band"><p>"If you set your mind to it, you can do anything."</p></div>
+<section class="chapter" id="chapter-13">
+  <p class="ch-eyebrow">Chapter Thirteen</p>
+  <div class="ch-header">
+    <span class="ch-num">13</span>
+    <h2 class="ch-title">Setting Goals That <span>Move You Forward</span></h2>
+  </div>
+  <p class="ch-body">Goal-setting isn't about pressure — it's about direction. When you know where you're going, every piece of content you create has a purpose.</p>
+  <div class="goal-grid">
+    <div class="goal-card">
+      <h4>📅 30-Day Goal</h4>
+      <p>Write down exactly what you want to have achieved by Day 30. Be specific — include income, follower milestones, and product completion.</p>
+    </div>
+    <div class="goal-card">
+      <h4>📅 60-Day Goal</h4>
+      <p>Where do you want your brand to be at 60 days? Think about your first consistent sales, first testimonials, and platform growth.</p>
+    </div>
+    <div class="goal-card wide">
+      <h4>📅 90-Day Goal</h4>
+      <p>Your 90-day vision. Don't be afraid to set it high — income goals are obtainable when you wake up with the right mindset every single day.</p>
+    </div>
+  </div>
+  <div class="ch-quote"><p>"If you set your mind to it, you can do anything."</p></div>
+  <div class="stars">★ ★ ★ ★ ★</div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Write your 90-day goal somewhere you'll see it every morning. Not to stress about it — to remind yourself why you started.</p>
+  </div>
+</section>
+
+<!-- ══ CH 14 ══ -->
+<div class="band"><p>"Sell the transformation. Sell the feeling. Sell the result."</p></div>
+<section class="chapter" id="chapter-14">
+  <p class="ch-eyebrow">Chapter Fourteen</p>
+  <div class="ch-header">
+    <span class="ch-num">14</span>
+    <h2 class="ch-title">Let's <em>Launch</em> &amp; Make Some Money!</h2>
+  </div>
+  <p class="ch-body">You've built it. Now it's time to let the world know. Here's how to launch in a way that builds excitement, trust, and sales.</p>
+  <ul class="step-list">
+    <li><span class="step-num">1</span><div class="step-content"><h4>Add Your Stan Store Link to Instagram Bio</h4><p>Make a big deal about it in your Stories. Build anticipation before launch day.</p></div></li>
+    <li><span class="step-num">2</span><div class="step-content"><h4>Share Your Creation Process</h4><p>Behind-the-scenes content builds excitement and trust. Take your audience on the journey with you.</p></div></li>
+    <li><span class="step-num">3</span><div class="step-content"><h4>Share Your Story</h4><p>It takes an average of 7 times before someone buys. Don't panic if sales are slow at first — keep showing up.</p></div></li>
+    <li><span class="step-num">4</span><div class="step-content"><h4>Keep Sharing — Even When You're Sick of It</h4><p>That feeling of "I've said this too many times" is actually the sweet spot. Your audience is just catching up.</p></div></li>
+  </ul>
+  <div class="ch-quote"><p>KEY to making sales is selling the outcome of your product — not the features. Sell the transformation. Sell the feeling. Sell the result.</p></div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Your launch day isn't a one-time event. Every day you post is a launch day for someone seeing you for the first time.</p>
+  </div>
+</section>
+
+<!-- ══ CH 15 ══ -->
+<div class="band"><p>"The best testimonials aren't fancy — they're real."</p></div>
+<section class="chapter" id="chapter-15">
+  <p class="ch-eyebrow">Chapter Fifteen</p>
+  <div class="ch-header">
+    <span class="ch-num">15</span>
+    <h2 class="ch-title">Getting <em>Testimonials</em></h2>
+  </div>
+  <p class="ch-body">Testimonials are a HUGE selling factor. The best ones aren't fancy — they're real DM screenshots from happy customers. Always ask permission before sharing.</p>
+  <p style="font-size:0.78rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--soft);margin-bottom:14px;">Where to Use Testimonials</p>
+  <ul class="rule-list">
+    <li>Directly on your Stan Store sales page</li>
+    <li>In your Stories — with a story around the client's results first</li>
+    <li>In your Reels</li>
+    <li>At the end of every email you send</li>
+  </ul>
+  <div class="ch-quote"><p>"I can't believe how much I learned from this guide."</p></div>
+  <div class="stars">★ ★ ★ ★ ★</div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Ask for testimonials immediately after someone gets a result. That's when the excitement is highest and the message is most authentic.</p>
+  </div>
+</section>
+
+<!-- ══ CH 16 ══ -->
+<div class="band"><p>"More views on your products = more money in your pocket."</p></div>
+<section class="chapter" id="chapter-16">
+  <p class="ch-eyebrow">Chapter Sixteen</p>
+  <div class="ch-header">
+    <span class="ch-num">16</span>
+    <h2 class="ch-title">Get Your Name <span>Out There</span></h2>
+  </div>
+  <p class="ch-body">Some people say not to interact with others in your niche — but that's wrong. You want to be the authority figure who is visible, supportive, and knowledgeable.</p>
+  <ul class="step-list">
+    <li><span class="step-num">✦</span><div class="step-content"><h4>Engage with Your Niche Community</h4><p>Comment, collaborate, support. Position yourself as someone who is genuinely invested in the community.</p></div></li>
+    <li><span class="step-num">✦</span><div class="step-content"><h4>Do Collabs &amp; Lives</h4><p>Reach out to people you know. Ask them to do a live with you on a topic related to your offer. Borrowed audiences are gold.</p></div></li>
+    <li><span class="step-num">✦</span><div class="step-content"><h4>List Everywhere</h4><p>Don't limit yourself to social media. List your product on Etsy, Payhip, Gumroad — everywhere your buyer might be searching.</p></div></li>
+  </ul>
+  <div class="ch-quote"><p>The more eyes on your product, the more sales you'll make. Visibility is a strategy. Show up everywhere.</p></div>
+  <div class="mama-tip">
+    <strong>✦ Mama Tip</strong>
+    <p>Your biggest competition isn't another creator. It's invisibility. Show up, comment, collaborate — let people find you everywhere they look.</p>
+  </div>
+</section>
+
+<!-- ══ YOU'VE GOT THIS ══ -->
+<section style="background:var(--white);padding:72px 32px;text-align:center;border-top:2px solid var(--blush);">
+  <div style="max-width:560px;margin:0 auto;">
+    <div class="cover-stars" style="margin-bottom:24px;">✦ ✦ ✦</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,6vw,3.5rem);font-weight:700;color:var(--charcoal);margin-bottom:20px;">You've got this.</h2>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;color:var(--mid);line-height:1.7;margin-bottom:24px;">This guide is just the beginning. Every big digital business started exactly where you are right now — with one idea, one product, and one brave first step.</p>
+    <p style="font-size:0.9rem;color:var(--blush-deep);font-weight:600;">Now go build something beautiful. 🌸</p>
+    <div class="cover-divider" style="margin:32px auto;"></div>
+    <a href="https://instagram.com/avvy_digitalmom" style="display:inline-block;border:1.5px solid var(--rose-muted);padding:10px 28px;border-radius:100px;font-size:0.82rem;font-weight:600;color:var(--blush-deep);letter-spacing:0.08em;text-decoration:none;">Follow my journey @avvy_digitalmom</a>
+  </div>
+</section>
+
+<!-- ══ LTLU CTA ══ -->
+<section class="cta-section" id="ltlu-cta">
+  <div class="cta-inner">
+    <div class="cta-eyebrow">Your Next Step</div>
+    <h2>You've Got the Guide.<br>Now Get the <em>System.</em></h2>
+    <p>You just learned the foundations. Now learn how to sell consistently — with a step-by-step A-Z system built by someone who's actually done it, with 4,000+ students to prove it works.</p>
+
+    <ul class="cta-problem-list">
+      <li>You're posting consistently but nobody's clicking your link</li>
+      <li>You've made a few sales but can't figure out how to make them stick</li>
+      <li>You don't have a big audience and you're not sure that even matters</li>
+      <li>You've bought the courses, tried the strategies, but still feel like you're missing something</li>
+    </ul>
+
+    <div class="cta-divider"></div>
+
+    <div class="cta-pillars">
+      <div class="cta-pillar">
+        <span class="cta-pillar-icon">🎯</span>
+        <h4>21+ Modules</h4>
+        <p>Real examples from real content. No fluff.</p>
+      </div>
+      <div class="cta-pillar">
+        <span class="cta-pillar-icon">📋</span>
+        <h4>Daily Checklists</h4>
+        <p>Always know exactly what to do next.</p>
+      </div>
+      <div class="cta-pillar">
+        <span class="cta-pillar-icon">📱</span>
+        <h4>Mobile-Friendly</h4>
+        <p>Learn from your phone, on your schedule.</p>
+      </div>
+      <div class="cta-pillar">
+        <span class="cta-pillar-icon">👩‍👩‍👧</span>
+        <h4>Community</h4>
+        <p>A private community of creators who get it.</p>
+      </div>
+      <div class="cta-pillar">
+        <span class="cta-pillar-icon">💸</span>
+        <h4>75% Affiliate</h4>
+        <p>Resell LTLU and earn from day one.</p>
+      </div>
+      <div class="cta-pillar">
+        <span class="cta-pillar-icon">🔁</span>
+        <h4>Small Accounts</h4>
+        <p>Built for beginners. No big following needed.</p>
+      </div>
+    </div>
+
+    <div class="cta-divider"></div>
+
+    <div class="proof-row">
+      <div class="proof-card">
+        <p>"My small account pulls in daily leads and sales because of LTLU. Made $7.2K in sales."</p>
+        <span>@thrivingfaceless</span>
+      </div>
+      <div class="proof-card">
+        <p>"2 sales in Week 1! So glad I was able to study the LTLU program — all credit goes to Asma!"</p>
+        <span>Misk Nomani</span>
+      </div>
+      <div class="proof-card">
+        <p>"Made $1k on my launch day. 10/10 — don't sleep on this module!"</p>
+        <span>Vanessa Cooper</span>
+      </div>
+    </div>
+
+    <div class="cta-divider"></div>
+
+    <div class="cta-faq">
+      <div class="cta-faq-item">
+        <h4>What if I don't have a big audience?</h4>
+        <p>LTLU was built for small accounts. You don't need tons of followers — you need a strategy.</p>
+      </div>
+      <div class="cta-faq-item">
+        <h4>What if I don't know what to sell?</h4>
+        <p>LTLU shows you exactly how to start, pick low-ticket products that sell, and scale naturally to bigger offers.</p>
+      </div>
+      <div class="cta-faq-item">
+        <h4>I've tried courses before and nothing worked.</h4>
+        <p>You've tried content hacks. This is a system — built on real results, not recycled advice.</p>
+      </div>
+      <div class="cta-faq-item">
+        <h4>Can I resell this course?</h4>
+        <p>Yes! LTLU comes with 75% affiliate commission — earn from every sale you refer, starting with your first.</p>
+      </div>
+    </div>
+
+    <a href="YOUR_LTLU_AFFILIATE_LINK_HERE" class="cta-btn">Yes, I Want the System →</a>
+    <p class="cta-price-note"><strong>$67 one-time</strong> · Lifetime access · Community included · 75% affiliate commission</p>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<div class="footer">
+  <p>This guide contains an affiliate link. If you purchase through my link, I may earn a commission at no extra cost to you.<br>
+  I only recommend resources I personally use and believe in. <strong>♥ @avvy_digitalmom</strong></p>
+</div>
+
+</body>
+</html>
