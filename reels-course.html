@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Reels Studio with Claude</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="A beginner course by @avvy_digitalmom: edit Instagram Reels by typing plain-English requests into Claude Code. Includes a custom reel builder that writes your editing prompt for you.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Montserrat:wght@800&family=Poppins:wght@700&family=Bebas+Neue&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+/* Layout: a single reading column (max 780px) with lesson cards, widening to a two-pane studio for the reel builder. */
+:root {
+  --cream:      #FFF9F5;
+  --white:      #FFFFFF;
+  --blush:      #F5D6D6;
+  --rose-muted: #E8C4C4;
+  --blush-deep: #B5707A;
+  --gold:       #C9A84C;
+  --gold-soft:  #FBF3DF;
+  --charcoal:   #2C2C2C;
+  --mid:        #5A5050;
+  --soft:       #8E7E7E;
+  --term-bg:    #2A2325;
+  --term-fg:    #F6EDEA;
+  --term-dim:   #BFAFAF;
+  --good:       #4E8A62;
+  --good-soft:  #E5F2E8;
+  --bad:        #B2524F;
+  --bad-soft:   #F8E4E2;
+
+  --f-display: 'Cormorant Garamond', Georgia, serif;
+  --f-body: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'DM Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --cream: #1D1819; --white: #272122; --blush: #4A3537; --rose-muted: #5C4446;
+    --blush-deep: #E3A4AC; --gold: #D9BC6A; --gold-soft: #3A3123;
+    --charcoal: #F4EBE8; --mid: #CDBEBC; --soft: #A59492;
+    --term-bg: #120F10; --term-fg: #F6EDEA; --term-dim: #A89998;
+    --good: #7CC293; --good-soft: #20352A; --bad: #E58F8B; --bad-soft: #3D2322;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --cream: #1D1819; --white: #272122; --blush: #4A3537; --rose-muted: #5C4446;
+  --blush-deep: #E3A4AC; --gold: #D9BC6A; --gold-soft: #3A3123;
+  --charcoal: #F4EBE8; --mid: #CDBEBC; --soft: #A59492;
+  --term-bg: #120F10; --term-fg: #F6EDEA; --term-dim: #A89998;
+  --good: #7CC293; --good-soft: #20352A; --bad: #E58F8B; --bad-soft: #3D2322;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.65;
+  background: var(--cream);
+  color: var(--charcoal);
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--white);
+}
+h1, h2, h3 { text-wrap: balance; }
+a { color: var(--blush-deep); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+code { font-family: var(--f-mono); font-size: 0.88em; background: var(--gold-soft); padding: 1px 6px; border-radius: 4px; }
+
+.wrap {
+  max-width: 780px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap-wide { max-width: 1120px; }
+
+/* ── progress bar ── */
+.progress-bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: var(--white); border-bottom: 1px solid var(--blush);
+}
+.progress-inner { display: flex; align-items: center; gap: 14px; padding-block: 10px; }
+.progress-label { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--soft); white-space: nowrap; }
+.progress-track { flex: 1; height: 6px; background: var(--blush); border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--blush-deep), var(--gold)); transition: width .4s ease; }
+.progress-count { font-size: 0.8rem; font-weight: 600; color: var(--blush-deep); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* ── hero ── */
+.hero { background: linear-gradient(160deg, var(--blush) 0%, var(--cream) 60%, var(--gold-soft) 100%); }
+.hero-inner { padding-block: 64px 56px; display: grid; gap: 40px; grid-template-columns: 1fr auto; align-items: center; }
+.badge {
+  display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--blush-deep); border: 1px solid var(--rose-muted); padding: 6px 16px; border-radius: 99px; background: var(--white);
+}
+.hero h1 { font-family: var(--f-display); font-size: clamp(2.6rem, 7vw, 4.2rem); line-height: 1.05; margin: 20px 0 16px; }
+.hero h1 em { color: var(--blush-deep); }
+.hero p { max-width: 34em; color: var(--mid); margin: 0 0 12px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 22px; font-size: 0.85rem; color: var(--mid); }
+.hero-meta b { color: var(--charcoal); }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-body); font-weight: 600; font-size: 0.86rem;
+  padding: 11px 22px; border-radius: 99px; border: 1.5px solid var(--blush-deep); background: var(--blush-deep);
+  color: var(--white); cursor: pointer; text-decoration: none;
+}
+.btn.ghost { background: transparent; color: var(--blush-deep); }
+.btn:hover { filter: brightness(1.05); }
+
+.mini-phone { width: 168px; aspect-ratio: 9/16; max-width: 100%; border-radius: 26px; border: 6px solid var(--charcoal); background: linear-gradient(170deg, #d9a9a2, #f1d2b8 55%, #c99a7e); position: relative; overflow: hidden; box-shadow: 0 18px 40px rgba(80,40,40,.18); }
+.mini-phone .ph-cap { position: absolute; left: 8px; right: 8px; top: 60%; text-align: center; font: 800 13px/1.2 'Montserrat', var(--f-body); color: #fff; text-shadow: 0 0 3px #000, 0 1px 2px #000; }
+.mini-phone .ph-cap span { color: #F2D27A; }
+.mini-phone .ph-hook { position: absolute; left: 10px; right: 10px; top: 16%; text-align: center; font: 700 12px/1.25 'Poppins', var(--f-body); background: #fff; color: #2C2C2C; padding: 6px; border-radius: 8px; }
+
+/* ── course map ── */
+.section { padding-block: 56px; }
+.eyebrow { font-size: 10.5px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--soft); margin: 0 0 8px; }
+.section h2 { font-family: var(--f-display); font-size: clamp(1.9rem, 4.5vw, 2.6rem); line-height: 1.15; margin: 0 0 14px; }
+.lede { color: var(--mid); margin: 0 0 28px; }
+.map { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.map a {
+  display: grid; grid-template-columns: 2.4rem 1fr auto; align-items: center; gap: 12px;
+  padding: 12px 16px; border: 1.5px solid var(--blush); border-radius: 10px; background: var(--white);
+  color: var(--charcoal); text-decoration: none;
+}
+.map a:hover { border-color: var(--gold); }
+.map .n { font-family: var(--f-display); font-size: 1.35rem; font-weight: 700; color: var(--blush-deep); }
+.map .t { font-weight: 500; font-size: 0.95rem; min-width: 0; }
+.map .t small { display: block; color: var(--soft); font-weight: 400; font-size: 0.8rem; }
+.map .st { font-size: 0.72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--soft); white-space: nowrap; }
+.map a.is-done { border-color: var(--good); }
+.map a.is-done .st { color: var(--good); }
+
+/* ── lessons ── */
+.lesson { padding-block: 56px; border-top: 1px solid var(--blush); scroll-margin-top: 60px; }
+.lesson-head { display: grid; grid-template-columns: auto 1fr; gap: 4px 18px; align-items: end; margin-bottom: 22px; }
+.lesson-num { grid-row: span 2; font-family: var(--f-display); font-size: clamp(3.4rem, 9vw, 5rem); font-weight: 700; line-height: .85; color: var(--blush); }
+.lesson-head .eyebrow { margin: 0; }
+.lesson-head h2 { font-family: var(--f-display); font-size: clamp(1.7rem, 4vw, 2.3rem); line-height: 1.12; margin: 0; }
+.lesson h3 { font-size: 1.05rem; margin: 30px 0 8px; }
+.lesson p, .lesson li { color: var(--mid); }
+.lesson p { margin: 0 0 14px; }
+.lesson ul, .lesson ol { padding-left: 1.3em; margin: 0 0 16px; }
+.lesson li { margin-bottom: 6px; }
+.lesson strong { color: var(--charcoal); }
+.goal { display: flex; gap: 10px; align-items: baseline; background: var(--gold-soft); border-radius: 10px; padding: 12px 16px; margin-bottom: 22px; font-size: 0.93rem; color: var(--charcoal); }
+.goal b { font-size: 0.72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+
+.steps { counter-reset: s; list-style: none; padding: 0 !important; display: grid; gap: 12px; }
+.steps > li { counter-increment: s; display: grid; grid-template-columns: 2rem 1fr; gap: 12px; margin: 0 !important; }
+.steps > li::before {
+  content: counter(s); width: 2rem; height: 2rem; border-radius: 50%; background: var(--blush); color: var(--blush-deep);
+  font-weight: 700; display: grid; place-items: center; font-size: 0.9rem;
+}
+.steps > li > div { min-width: 0; padding-top: 3px; }
+
+.tip, .heads-up { border-left: 3px solid var(--gold); background: var(--white); padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 18px 0; font-size: 0.93rem; color: var(--mid); }
+.heads-up { border-left-color: var(--blush-deep); }
+.tip b, .heads-up b { color: var(--charcoal); }
+
+/* prompt card */
+.prompt { border: 1.5px solid var(--rose-muted); border-radius: 12px; background: var(--white); margin: 14px 0 18px; overflow: hidden; }
+.prompt-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 10px 8px 14px; background: var(--blush); }
+.prompt-head span { font-size: 0.72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--blush-deep); }
+.copy {
+  font: 600 0.78rem var(--f-body); border: 1px solid var(--blush-deep); background: var(--white); color: var(--blush-deep);
+  border-radius: 99px; padding: 5px 14px; cursor: pointer; white-space: nowrap;
+}
+.copy.ok { background: var(--good); border-color: var(--good); color: var(--white); }
+.prompt pre { margin: 0; padding: 14px 16px; font: 400 0.86rem/1.6 var(--f-mono); white-space: pre-wrap; word-break: break-word; color: var(--charcoal); overflow-x: auto; }
+.prompt.cmd pre { background: var(--term-bg); color: var(--term-fg); }
+
+/* chat sample */
+.chat { background: var(--term-bg); color: var(--term-fg); border-radius: 12px; padding: 16px 18px; font: 0.84rem/1.6 var(--f-mono); margin: 14px 0 18px; overflow-x: auto; }
+.chat p { margin: 0 0 10px; color: var(--term-fg) !important; }
+.chat p:last-child { margin: 0; }
+.chat .who { display: inline-block; min-width: 4.6em; font-weight: 500; color: var(--gold); }
+.chat .who.me { color: #F0A8B2; }
+.chat .dim { color: var(--term-dim); }
+.chat .ask { display: block; border: 1px solid #5a4a4c; border-radius: 8px; padding: 8px 10px; margin-top: 6px; }
+
+/* tabs */
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0 0; }
+.tab { font: 600 0.84rem var(--f-body); padding: 8px 16px; border-radius: 99px; border: 1.5px solid var(--rose-muted); background: var(--white); color: var(--mid); cursor: pointer; }
+.tab[aria-selected="true"] { background: var(--charcoal); border-color: var(--charcoal); color: var(--cream); }
+.tabpanel { padding-top: 6px; }
+
+.done-row { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.done-btn { font: 600 0.86rem var(--f-body); padding: 11px 22px; border-radius: 99px; border: 1.5px solid var(--good); background: var(--white); color: var(--good); cursor: pointer; }
+.done-btn[aria-pressed="true"] { background: var(--good); color: var(--white); }
+.done-row small { color: var(--soft); }
+
+.table-wrap { overflow-x: auto; margin: 14px 0 18px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; min-width: 480px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--blush); vertical-align: top; color: var(--mid); }
+th { font-size: 0.72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--soft); font-weight: 600; }
+td:first-child { color: var(--charcoal); font-weight: 500; }
+
+/* ── studio (reel builder) ── */
+.studio { background: var(--white); border-block: 1px solid var(--blush); }
+.studio-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 32px; align-items: start; }
+.panel { min-width: 0; }
+.field { display: grid; gap: 6px; margin-bottom: 16px; align-content: start; }
+.field > label, .field > .lbl { font-size: 0.8rem; font-weight: 600; color: var(--charcoal); }
+.field .hint { font-size: 0.78rem; color: var(--soft); margin-top: -2px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.row2 > .field { min-width: 0; }
+input[type="text"], select {
+  width: 100%; font: 0.92rem var(--f-body); padding: 9px 12px; border-radius: 8px;
+  border: 1.5px solid var(--rose-muted); background: var(--cream); color: var(--charcoal);
+}
+input[type="color"] { width: 100%; height: 40px; border: 1.5px solid var(--rose-muted); border-radius: 8px; background: var(--cream); padding: 3px; cursor: pointer; }
+input[type="range"] { width: 100%; accent-color: var(--blush-deep); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips input { position: absolute; opacity: 0; pointer-events: none; }
+.chips label { font-size: 0.82rem; font-weight: 500; padding: 7px 13px; border-radius: 99px; border: 1.5px solid var(--rose-muted); background: var(--cream); color: var(--mid); cursor: pointer; }
+.chips input:checked + label { background: var(--blush-deep); border-color: var(--blush-deep); color: var(--white); }
+.chips input:focus-visible + label { outline: 2px solid var(--gold); outline-offset: 2px; }
+.group { border: 1.5px solid var(--blush); border-radius: 12px; padding: 16px 16px 2px; margin-bottom: 16px; }
+.group > legend { font-size: 0.72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--blush-deep); padding: 0 6px; }
+.toggle { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--charcoal); margin-bottom: 14px; cursor: pointer; }
+.toggle input { width: 18px; height: 18px; accent-color: var(--blush-deep); }
+
+.preview-wrap { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px; align-items: start; margin-bottom: 20px; }
+.phone { width: 230px; max-width: 100%; aspect-ratio: 9/16; border-radius: 32px; border: 7px solid #1e1a1b; position: relative; overflow: hidden; background: #222; box-shadow: 0 20px 44px rgba(60,30,30,.2); }
+.phone .vid { position: absolute; inset: 0; background: linear-gradient(175deg, #e4b7ae 0%, #f3d9c4 45%, #cfa186 100%); transition: filter .3s; }
+.phone .vid::before { content: ""; position: absolute; left: 50%; top: 30%; width: 34%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: #8a5a4a; box-shadow: inset 0 -10px 0 #7a4c3e; }
+.phone .vid::after { content: ""; position: absolute; left: 50%; bottom: -6%; width: 78%; height: 42%; transform: translateX(-50%); border-radius: 48% 48% 0 0; background: #f1efe9; }
+.phone .zone { position: absolute; left: 0; right: 0; background: repeating-linear-gradient(45deg, rgba(178,82,79,.32) 0 6px, rgba(178,82,79,.14) 6px 12px); display: none; color: #fff; font: 600 9px/1.2 var(--f-body); letter-spacing: .08em; text-transform: uppercase; padding: 4px 6px; }
+.phone .zone.top { top: 0; height: 12%; }
+.phone .zone.bottom { bottom: 0; height: 20%; display: none; align-items: flex-end; }
+.phone .zone.side { top: 40%; bottom: 20%; left: auto; width: 15%; }
+.phone.show-zones .zone { display: flex; }
+.phone .hook { position: absolute; left: 9%; right: 9%; top: 15%; text-align: center; font: 700 15px/1.2 'Poppins', var(--f-body); padding: 7px 8px; border-radius: 8px; }
+.phone .hook .when { display: block; font: 600 8px var(--f-body); letter-spacing: .12em; opacity: .65; margin-top: 3px; text-transform: uppercase; }
+.phone .cap { position: absolute; left: 7%; right: 7%; text-align: center; line-height: 1.15; transition: top .25s; }
+.phone .cap .w { display: inline-block; margin: 0 .12em; }
+.phone .cap.pop .w { animation: pop .22s ease-out; }
+@keyframes pop { from { transform: scale(.6); opacity: .3; } to { transform: scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .phone .cap.pop .w { animation: none; } }
+.phone .logo { position: absolute; top: 4%; right: 6%; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,.85); display: grid; place-items: center; font: 700 10px var(--f-display); color: #B5707A; }
+.phone .endcard { position: absolute; inset: 0; display: none; place-items: center; text-align: center; padding: 20%; background: rgba(30,24,25,.78); color: #fff; font: 700 16px/1.25 'Poppins', var(--f-body); }
+.phone.show-end .endcard { display: grid; }
+.phone .ui { position: absolute; right: 4%; bottom: 24%; display: grid; gap: 10px; }
+.phone .ui i { width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,.7); display: block; }
+.phone .meta { position: absolute; left: 5%; bottom: 7%; right: 20%; display: grid; gap: 4px; }
+.phone .meta i { height: 6px; border-radius: 4px; background: rgba(255,255,255,.75); display: block; }
+.preview-side { display: grid; gap: 10px; min-width: 0; }
+.preview-side .toggle { margin: 0; font-size: 0.84rem; }
+.summary { list-style: none; padding: 0; margin: 4px 0 0; display: grid; gap: 6px; font-size: 0.82rem; }
+.summary li { display: grid; grid-template-columns: 5.2rem 1fr; gap: 8px; color: var(--mid); }
+.summary li b { color: var(--soft); font-weight: 600; font-size: 0.72rem; letter-spacing: .08em; text-transform: uppercase; padding-top: 2px; }
+.out pre { max-height: 440px; overflow: auto; }
+.studio-grid > .panel:last-child { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 56px); }
+
+/* ── fix-it + glossary ── */
+.fix-out { border: 1.5px solid var(--blush); border-radius: 12px; padding: 16px 18px 4px; background: var(--white); margin-top: 12px; }
+.fix-out h4 { margin: 0 0 6px; font-size: 0.95rem; }
+.gloss { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+.gloss div { background: var(--white); border: 1.5px solid var(--blush); border-radius: 10px; padding: 12px 14px; }
+.gloss dt { font-weight: 600; color: var(--charcoal); font-size: 0.92rem; }
+.gloss dd { margin: 4px 0 0; color: var(--mid); font-size: 0.86rem; }
+
+/* ── quiz ── */
+.q { background: var(--white); border: 1.5px solid var(--blush); border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; }
+.q p { margin: 0 0 10px !important; color: var(--charcoal) !important; font-weight: 500; }
+.q .opts { display: grid; gap: 6px; }
+.q button { text-align: left; font: 0.9rem var(--f-body); padding: 9px 14px; border-radius: 8px; border: 1.5px solid var(--rose-muted); background: var(--cream); color: var(--charcoal); cursor: pointer; }
+.q button.right { background: var(--good-soft); border-color: var(--good); }
+.q button.wrong { background: var(--bad-soft); border-color: var(--bad); }
+.q .why { font-size: 0.86rem; margin-top: 8px; color: var(--mid); }
+.score { font-weight: 600; color: var(--blush-deep); }
+
+.finish { text-align: center; padding-block: 64px; }
+.finish h2 { font-family: var(--f-display); font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 10px; }
+.finish p { color: var(--mid); max-width: 32em; margin: 0 auto 10px; }
+.cert { display: none; margin: 26px auto 0; max-width: 460px; border: 2px solid var(--gold); border-radius: 14px; padding: 22px; background: var(--white); }
+.cert.on { display: block; }
+.cert b { font-family: var(--f-display); font-size: 1.5rem; display: block; color: var(--blush-deep); }
+.footer { text-align: center; font-size: 0.82rem; color: var(--soft); padding-block: 28px 40px; border-top: 1px solid var(--blush); }
+.footer strong { color: var(--blush-deep); }
+
+@media (max-width: 880px) {
+  .studio-grid { grid-template-columns: minmax(0, 1fr); }
+  .studio-grid > .panel:last-child { position: static; order: -1; }
+}
+@media (max-width: 620px) {
+  .hero-inner { grid-template-columns: 1fr; padding-block: 44px 40px; }
+  .mini-phone { display: none; }
+  .preview-wrap { grid-template-columns: 1fr; justify-items: center; }
+  .preview-side { width: 100%; }
+  .row2 { grid-template-columns: 1fr; }
+  .gloss { grid-template-columns: 1fr; }
+  .map a { grid-template-columns: 2rem 1fr; }
+  .map .st { grid-column: 2; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" role="region" aria-label="Your course progress">
+  <div class="wrap progress-inner">
+    <span class="progress-label">Your progress</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-count" id="progressCount">0 of 10 lessons</span>
+  </div>
+</div>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <span class="badge">Beginner course · @avvy_digitalmom</span>
+      <h1>Edit Instagram Reels <em>by just asking</em></h1>
+      <p>No editing app, no timeline, no tech background. You type what you want in plain English, like "cut my pauses and add captions in my brand pink", and Claude Code does the editing on your computer.</p>
+      <p>This course walks you through it one small step at a time. Lesson 8 has a <b>Reel Builder</b>: pick your caption style, colors, hook text and music, and it writes the full editing request for you to copy and paste.</p>
+      <div class="hero-meta">
+        <span><b>10</b> short lessons</span>
+        <span><b>~2 hours</b> start to finish</span>
+        <span><b>Mac or Windows</b></span>
+        <span>Your progress saves in this browser</span>
+      </div>
+      <div class="hero-cta">
+        <a class="btn" href="#lesson-1">Start lesson 1</a>
+        <a class="btn ghost" href="#lesson-8">Jump to the Reel Builder</a>
+      </div>
+    </div>
+    <div class="mini-phone" aria-hidden="true">
+      <div class="ph-hook">3 editing hacks I wish I knew sooner</div>
+      <div class="ph-cap">cut the <span>pauses</span><br>first</div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ COURSE MAP ══ -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Course map</p>
+    <h2>What you'll learn, in order</h2>
+    <p class="lede">Each lesson builds on the one before it, so go in order the first time. Tick "Mark lesson complete" at the end of each one to fill your progress bar.</p>
+    <ol class="map" id="courseMap">
+      <li><a href="#lesson-1" data-map="1"><span class="n">1</span><span class="t">Meet your editing assistant<small>What Claude Code is and what you need</small></span><span class="st">10 min</span></a></li>
+      <li><a href="#lesson-2" data-map="2"><span class="n">2</span><span class="t">Set up in 15 minutes<small>Install, make your Reels folder, first launch</small></span><span class="st">15 min</span></a></li>
+      <li><a href="#lesson-3" data-map="3"><span class="n">3</span><span class="t">Your first edit<small>Trim it and make it vertical</small></span><span class="st">10 min</span></a></li>
+      <li><a href="#lesson-4" data-map="4"><span class="n">4</span><span class="t">Cut the dead air<small>Remove pauses, stitch clips, jump cuts</small></span><span class="st">10 min</span></a></li>
+      <li><a href="#lesson-5" data-map="5"><span class="n">5</span><span class="t">Captions people actually read<small>Auto-captions in your fonts and colors</small></span><span class="st">15 min</span></a></li>
+      <li><a href="#lesson-6" data-map="6"><span class="n">6</span><span class="t">Music and sound<small>Background music, ducking, clean voice</small></span><span class="st">10 min</span></a></li>
+      <li><a href="#lesson-7" data-map="7"><span class="n">7</span><span class="t">Hooks, text, color and branding<small>Make it look like you</small></span><span class="st">15 min</span></a></li>
+      <li><a href="#lesson-8" data-map="8"><span class="n">8</span><span class="t">The Reel Builder<small>Design your reel and get your custom prompt</small></span><span class="st">15 min</span></a></li>
+      <li><a href="#lesson-9" data-map="9"><span class="n">9</span><span class="t">Your brand kit and batch editing<small>Edit five reels with one request</small></span><span class="st">10 min</span></a></li>
+      <li><a href="#lesson-10" data-map="10"><span class="n">10</span><span class="t">Export, check and post<small>Instagram settings, safe zones, cover image</small></span><span class="st">10 min</span></a></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══ LESSON 1 ══ -->
+<section class="lesson" id="lesson-1">
+  <div class="wrap">
+    <div class="lesson-head"><span class="lesson-num">1</span><p class="eyebrow">Lesson 1 · 10 min</p><h2>Meet your editing assistant</h2></div>
+    <div class="goal"><b>Goal</b><span>Understand what Claude Code does so nothing later feels like magic or a mystery.</span></div>
+
+    <p><strong>Claude Code is Claude with hands.</strong> Regular Claude chats with you. Claude Code can also work with the files on your computer: open your video, run editing tools, and save a finished reel into your folder. You describe the edit, it does the work, then tells you what it did.</p>
+    <p>Behind the scenes it uses two free tools that professionals use:</p>
+    <ul>
+      <li><strong>FFmpeg</strong>, the video engine. It cuts, crops, adds music, adds text and exports. It has no buttons, only typed commands, which is why most people never touch it. Claude types those commands for you.</li>
+      <li><strong>Whisper</strong>, a speech-to-text tool. It listens to your video and writes down every word with timing, which is how you get automatic captions.</li>
+    </ul>
+
+    <h3>How it feels to use</h3>
+    <div class="chat" aria-label="Example conversation">
+      <p><span class="who me">You</span> Cut the pauses out of talking.mp4 and make it vertical for Reels.</p>
+      <p><span class="who">Claude</span> Here's my plan: 1) find every pause longer than half a second, 2) cut them out, 3) crop to 9:16 at 1080×1920. I'll save it as talking-reel.mp4 and leave your original alone.</p>
+      <p><span class="who">Claude</span> <span class="dim">wants to run: ffmpeg -i talking.mp4 -af silencedetect=...</span><span class="ask">Do you want to proceed? &nbsp;1. Yes &nbsp;2. Yes, and don't ask again &nbsp;3. No</span></p>
+      <p><span class="who me">You</span> 1</p>
+      <p><span class="who">Claude</span> Done. Removed 14 pauses (11 seconds total). Your reel is 38 seconds long: talking-reel.mp4</p>
+    </div>
+
+    <h3>What you need</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Item</th><th>Details</th></tr></thead>
+      <tbody>
+        <tr><td>A computer</td><td>A Mac or a Windows PC. Phones and iPads can't run Claude Code's editing tools.</td></tr>
+        <tr><td>A Claude plan</td><td>Claude Code comes with the paid Claude plans (Pro and up). Check claude.ai for current pricing.</td></tr>
+        <tr><td>Your clips</td><td>Videos you filmed on your phone, moved to your computer at full quality.</td></tr>
+        <tr><td>Optional</td><td>A music file (MP3) you have rights to use, and your logo as a PNG.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="heads-up"><b>Set your expectations.</b> There's no timeline to drag. You edit with words, then watch the result and ask for changes ("move the captions up a bit", "make the music quieter"). Most people find this faster after their second or third reel, because the same request works every time.</div>
+
+    <div class="done-row"><button class="done-btn" data-lesson="1" aria-pressed="false">Mark lesson complete</button><small>Next: getting set up</small></div>
+  </div>
+</section>
+
+<!-- ══ LESSON 2 ══ -->
+<section class="lesson" id="lesson-2">
+  <div class="wrap">
+    <div class="lesson-head"><span class="lesson-num">2</span><p class="eyebrow">Lesson 2 · 15 min</p><h2>Set up in 15 minutes</h2></div>
+    <div class="goal"><b>Goal</b><span>Install Claude Code, make a Reels folder, and have Claude install the video tools for you.</span></div>
+
+    <p>Pick your computer:</p>
+    <div class="tabs" role="tablist" aria-label="Choose your computer">
+      <button class="tab" role="tab" id="tab-mac" aria-controls="panel-mac" aria-selected="true">Mac</button>
+      <button class="tab" role="tab" id="tab-win" aria-controls="panel-win" aria-selected="false">Windows</button>
+    </div>
+
+    <div class="tabpanel" role="tabpanel" id="panel-mac" aria-labelledby="tab-mac">
+      <ol class="steps">
+        <li><div><strong>Open Terminal.</strong> Press <code>Cmd</code> + <code>Space</code>, type <em>Terminal</em>, press Enter. A window with a blinking cursor opens. This is where you'll talk to Claude Code.</div></li>
+        <li><div><strong>Install Claude Code.</strong> Copy this line, paste it into Terminal, press Enter, and wait for it to finish.
+          <div class="prompt cmd"><div class="prompt-head"><span>Paste into Terminal</span><button class="copy">Copy</button></div><pre>curl -fsSL https://claude.ai/install.sh | bash</pre></div></div></li>
+        <li><div><strong>Make your Reels folder.</strong> In Finder, create a folder on your Desktop called <code>Reels</code>. Drag one or two of your video clips into it.</div></li>
+        <li><div><strong>Go into the folder and start Claude.</strong> Close Terminal, open it again (so it sees the new install), then paste:
+          <div class="prompt cmd"><div class="prompt-head"><span>Paste into Terminal</span><button class="copy">Copy</button></div><pre>cd ~/Desktop/Reels
+claude</pre></div>The first time, it opens your browser so you can sign in with your Claude account.</div></li>
+      </ol>
+    </div>
+
+    <div class="tabpanel" role="tabpanel" id="panel-win" aria-labelledby="tab-win" hidden>
+      <ol class="steps">
+        <li><div><strong>Open PowerShell.</strong> Click Start, type <em>PowerShell</em>, press Enter.</div></li>
+        <li><div><strong>Install Claude Code.</strong> Copy this line, paste it into PowerShell (right-click pastes), press Enter.
+          <div class="prompt cmd"><div class="prompt-head"><span>Paste into PowerShell</span><button class="copy">Copy</button></div><pre>irm https://claude.ai/install.ps1 | iex</pre></div>If it says it needs <strong>Git for Windows</strong>, install it from git-scm.com, then close and reopen PowerShell.</div></li>
+        <li><div><strong>Make your Reels folder.</strong> In File Explorer, create a folder on your Desktop called <code>Reels</code> and put one or two clips in it.</div></li>
+        <li><div><strong>Go into the folder and start Claude.</strong> Close and reopen PowerShell, then paste:
+          <div class="prompt cmd"><div class="prompt-head"><span>Paste into PowerShell</span><button class="copy">Copy</button></div><pre>cd $HOME\Desktop\Reels
+claude</pre></div>If your Desktop is synced to OneDrive and that fails, try <code>cd $HOME\OneDrive\Desktop\Reels</code>. The first launch asks you to sign in.</div></li>
+      </ol>
+    </div>
+
+    <div class="tip"><b>Prefer not to use a terminal?</b> The Claude desktop app also includes Claude Code. Open it, choose Code, and select your Reels folder. Everything in this course works the same way there.</div>
+
+    <h3>Your very first message: let Claude install the tools</h3>
+    <p>Once Claude Code is running in your Reels folder, paste this. It checks for FFmpeg and Whisper and installs anything missing.</p>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>I'm a complete beginner and I want to edit Instagram Reels in this folder.
+Please check whether FFmpeg and a Whisper speech-to-text tool are installed on my computer.
+If anything is missing, tell me in plain English what it is and why I need it, then install it.
+When you're done, list the video files in this folder and tell me how long each one is.</pre></div>
+
+    <h3>Understanding the "Do you want to proceed?" question</h3>
+    <p>Before Claude runs a command or changes a file, it shows you what it wants to do and asks. You'll see three choices:</p>
+    <ul>
+      <li><strong>Yes</strong> runs it once.</li>
+      <li><strong>Yes, and don't ask again</strong> lets that kind of command run without asking. Handy for FFmpeg once you're comfortable.</li>
+      <li><strong>No</strong> stops it. You can then type what you'd like instead.</li>
+    </ul>
+    <div class="heads-up"><b>Moving clips from your phone:</b> AirDrop (iPhone to Mac), a USB cable, or Google Drive / Google Photos downloads keep full quality. Sending videos to yourself through text or chat apps compresses them, and they'll look blurry on Instagram.</div>
+
+    <div class="done-row"><button class="done-btn" data-lesson="2" aria-pressed="false">Mark lesson complete</button><small>Next: your first real edit</small></div>
+  </div>
+</section>
+
+<!-- ══ LESSON 3 ══ -->
+<section class="lesson" id="lesson-3">
+  <div class="wrap">
+    <div class="lesson-head"><span class="lesson-num">3</span><p class="eyebrow">Lesson 3 · 10 min</p><h2>Your first edit: trim it and make it vertical</h2></div>
+    <div class="goal"><b>Goal</b><span>Turn a raw clip into a correctly sized Reel and learn the "ask, watch, adjust" loop.</span></div>
+
+    <p>Reels are tall: <strong>9:16</strong>, which means <strong>1080 pixels wide by 1920 tall</strong>. If you filmed sideways, Claude crops it. If you filmed vertically, it makes sure the size and format are exactly what Instagram wants.</p>
+    <p>Replace <code>clip1.mp4</code> with your file's real name. You can also ask "what videos are in this folder?" if you're not sure.</p>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>Take clip1.mp4 and make it a vertical Instagram Reel:
+- Cut off the first 2 seconds (that's me pressing record) and the last 3 seconds.
+- Make it 1080x1920 (9:16). If it's horizontal, crop the center.
+- Save it as clip1-reel.mp4. Don't change my original file.
+Tell me the final length when you're done.</pre></div>
+
+    <h3>The ask, watch, adjust loop</h3>
+    <ol class="steps">
+      <li><div><strong>Ask</strong> for the edit.</div></li>
+      <li><div><strong>Watch</strong> the new file. Double-click it in your Reels folder, or type "open clip1-reel.mp4".</div></li>
+      <li><div><strong>Adjust</strong> in plain words: "trim one more second off the start", "the crop cut off my head, keep the top of the frame instead".</div></li>
+    </ol>
+    <p>You don't need special words. Talk to it the way you'd talk to a friend helping you edit.</p>
+
+    <div class="tip"><b>Not sure where the good part starts?</b> Ask: "Show me what's happening at 0, 5, 10 and 15 seconds in clip1.mp4." Claude can grab still frames and look at them, then suggest where to cut.</div>
+
+    <div class="done-row"><button class="done-btn" data-lesson="3" aria-pressed="false">Mark lesson complete</button><small>Next: removing pauses</small></div>
+  </div>
+</section>
+
+<!-- ══ LESSON 4 ══ -->
+<section class="lesson" id="lesson-4">
+  <div class="wrap">
+    <div class="lesson-head"><span class="lesson-num">4</span><p class="eyebrow">Lesson 4 · 10 min</p><h2>Cut the dead air</h2></div>
+    <div class="goal"><b>Goal</b><span>Make talking videos snappy by removing pauses, and join several clips into one reel.</span></div>
+
+    <p>The fastest way to make a talking reel feel professional is to cut the pauses between sentences. Editors call these quick cuts <strong>jump cuts</strong>. Doing it by hand takes ages. Claude finds the quiet moments automatically.</p>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>In clip1-reel.mp4, remove every pause longer than 0.5 seconds.
+Leave about 0.15 seconds before and after each sentence so the cuts don't feel abrupt.
+Save it as clip1-tight.mp4 and tell me how many seconds you removed.</pre></div>
+
+    <h3>Tune how tight it feels</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feel</th><th>Say this</th><th>Good for</th></tr></thead>
+      <tbody>
+        <tr><td>Gentle</td><td>"remove pauses longer than 1 second"</td><td>Storytelling, calm or emotional content</td></tr>
+        <tr><td>Snappy</td><td>"remove pauses longer than 0.5 seconds"</td><td>Most talking reels and tips</td></tr>
+        <tr><td>Tight</td><td>"remove pauses longer than 0.3 seconds, and the 'ums'"</td><td>Fast-paced educational content</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Joining several clips</h3>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>Join intro.mp4, tip1.mp4, tip2.mp4 and outro.mp4 into one vertical reel, in that order.
+Make sure they all match in size and sound volume.
+Add a quick 0.2 second crossfade between clips.
+Save it as joined-reel.mp4.</pre></div>
+
+    <h3>Keeping your best take</h3>
+    <p>Filmed the same line three times? Claude can read your words (using Whisper) and spot repeats.</p>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>I said some sentences more than once in clip1.mp4 because I messed up.
+Transcribe it, show me where I repeated myself, and keep only the LAST version of each repeated sentence.
+Show me the list of cuts before you make them.</pre></div>
+
+    <div class="done-row"><button class="done-btn" data-lesson="4" aria-pressed="false">Mark lesson complete</button><small>Next: captions</small></div>
+  </div>
+</section>
+
+<!-- ══ LESSON 5 ══ -->
+<section class="lesson" id="lesson-5">
+  <div class="wrap">
+    <div class="lesson-head"><span class="lesson-num">5</span><p class="eyebrow">Lesson 5 · 15 min</p><h2>Captions people actually read</h2></div>
+    <div class="goal"><b>Goal</b><span>Add automatic captions in your font and colors, and fix any wrong words before they're burned in.</span></div>
+
+    <p>Many people scroll with the sound off, so captions keep them watching. Claude does this in two steps: Whisper writes down your words with timings, then FFmpeg draws them onto the video. Captions drawn onto the video are called <strong>burned-in captions</strong>, and they look the same on every phone.</p>
+
+    <h3>Step 1: get the transcript and check it</h3>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>Transcribe clip1-tight.mp4 with Whisper and save the captions as clip1.srt.
+Then show me the full text so I can check the spelling of names and brand words.</pre></div>
+    <p>Read it. If something is wrong, just say so: <em>"It's Avvy, not Avie, and it's LTLU, not L-T-L-U."</em> Claude fixes the file.</p>
+
+    <h3>Step 2: style and burn them in</h3>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>Burn the captions from clip1.srt into clip1-tight.mp4:
+- Show 2 to 4 words at a time, never more than 2 lines.
+- Font: Montserrat ExtraBold (download it from Google Fonts if I don't have it).
+- White text with a thin black outline.
+- Highlight the word being spoken in #C9A84C (gold).
+- Place them about 65% of the way down the screen, so Instagram's buttons don't cover them.
+Save it as clip1-captioned.mp4.</pre></div>
+
+    <h3>Caption styles to ask for</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Style</th><th>Say this</th><th>Vibe</th></tr></thead>
+      <tbody>
+        <tr><td>Clean subtitles</td><td>"simple white captions, one line, small"</td><td>Aesthetic, calm, luxury</td></tr>
+        <tr><td>Word highlight</td><td>"highlight the spoken word in my brand color"</td><td>Educational, talking head</td></tr>
+        <tr><td>One word pop</td><td>"show one big word at a time with a quick pop-in"</td><td>High energy, hooks, hype</td></tr>
+        <tr><td>Boxed</td><td>"white text in a soft pink rounded box"</td><td>Cute, easy to read on busy backgrounds</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tip"><b>See it without exporting the whole video:</b> "Grab a still frame at 4 seconds from clip1-captioned.mp4 and check whether the captions are readable and inside the safe zone." Claude can look at the image and tell you.</div>
+
+    <div class="done-row"><button class="done-btn" data-lesson="5" aria-pressed="false">Mark lesson complete</button><small>Next: music and sound</small></div>
+  </div>
+</section>
+
+<!-- ══ LESSON 6 ══ -->
+<section class="lesson" id="lesson-6">
+  <div class="wrap">
+    <div class="lesson-head"><span class="lesson-num">6</span><p class="eyebrow">Lesson 6 · 10 min</p><h2>Music and sound</h2></div>
+    <div class="goal"><b>Goal</b><span>Add background music that never drowns out your voice, and make your audio sound clean and even.</span></div>
+
+    <p>Put your music file (for example <code>song.mp3</code>) in your Reels folder first.</p>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>Add song.mp3 as background music to clip1-captioned.mp4:
+- Keep the music quiet, around 15% volume, so my voice is clear.
+- Automatically lower the music even more while I'm talking (ducking).
+- Fade the music in over 1 second and out over the last 2 seconds.
+- Make the final loudness about -14 LUFS so it sounds even on Instagram.
+Save it as clip1-music.mp4.</pre></div>
+
+    <h3>Sound fixes worth knowing</h3>
+    <ul>
+      <li><strong>Background hum or fan noise:</strong> "Reduce the background noise in my voice, but don't make it sound robotic."</li>
+      <li><strong>Quiet voice:</strong> "Make my voice louder and more even, without clipping."</li>
+      <li><strong>Using a trending sound instead:</strong> export your reel with your voice only (or silent), then add the trending audio inside the Instagram app when you post. Instagram's own music library is licensed for Reels; songs you download elsewhere usually aren't.</li>
+    </ul>
+    <div class="heads-up"><b>Music rights:</b> only use music you have permission to use, like royalty-free tracks or music you bought a license for. Unlicensed songs can get your reel muted or taken down.</div>
+
+    <div class="done-row"><button class="done-btn" data-lesson="6" aria-pressed="false">Mark lesson complete</button><small>Next: hooks, color and branding</small></div>
+  </div>
+</section>
+
+<!-- ══ LESSON 7 ══ -->
+<section class="lesson" id="lesson-7">
+  <div class="wrap">
+    <div class="lesson-head"><span class="lesson-num">7</span><p class="eyebrow">Lesson 7 · 15 min</p><h2>Hooks, text, color and branding</h2></div>
+    <div class="goal"><b>Goal</b><span>Stop the scroll in the first 3 seconds and make every reel look like it belongs to your brand.</span></div>
+
+    <h3>A text hook for the first 3 seconds</h3>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>Add the text "3 things I wish I knew before selling digital products" to the first 3 seconds of clip1-music.mp4.
+Big bold Poppins font, dark text on a white rounded box, centered in the top third of the screen.
+Have it fade out quickly at 3 seconds. Save as clip1-hook.mp4.</pre></div>
+
+    <h3>Color looks</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Look</th><th>Say this</th></tr></thead>
+      <tbody>
+        <tr><td>Warm and cozy</td><td>"make the colors slightly warmer, like golden hour"</td></tr>
+        <tr><td>Bright and airy</td><td>"brighten it a little, soften the shadows, keep skin tones natural"</td></tr>
+        <tr><td>Moody</td><td>"add a bit more contrast and lower the saturation slightly"</td></tr>
+        <tr><td>Fix a dark video</td><td>"this was filmed in low light, brighten it without making it grainy"</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Your logo, speed and an end card</h3>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>Using clip1-hook.mp4:
+- Put logo.png small in the top-right corner at 80% opacity for the whole video.
+- Speed the whole video up to 1.1x, keeping my voice natural (not chipmunky).
+- Add a 2-second end card: blush pink background (#F5D6D6) with the text "Comment GUIDE and I'll send it to you" in dark text.
+Save as clip1-final.mp4.</pre></div>
+
+    <div class="tip"><b>Speed tip:</b> 1.1x is barely noticeable but makes you sound energetic. Above 1.25x, voices start to sound rushed.</div>
+
+    <div class="done-row"><button class="done-btn" data-lesson="7" aria-pressed="false">Mark lesson complete</button><small>Next: build your own reel recipe</small></div>
+  </div>
+</section>
+
+<!-- ══ LESSON 8: REEL BUILDER ══ -->
+<section class="lesson studio" id="lesson-8">
+  <div class="wrap wrap-wide">
+    <div class="lesson-head"><span class="lesson-num">8</span><p class="eyebrow">Lesson 8 · 15 min</p><h2>The Reel Builder</h2></div>
+    <div class="goal"><b>Goal</b><span>Design your reel with the choices below, preview it on the phone, then copy one complete request into Claude Code.</span></div>
+
+    <div class="studio-grid">
+      <!-- controls -->
+      <form class="panel" id="builder" autocomplete="off">
+        <div class="field">
+          <span class="lbl" id="lbl-preset">Start from a style</span>
+          <div class="chips" role="radiogroup" aria-labelledby="lbl-preset">
+            <input type="radio" name="preset" id="p-talk" value="talk" checked><label for="p-talk">Talking head tips</label>
+            <input type="radio" name="preset" id="p-aes" value="aesthetic"><label for="p-aes">Aesthetic B-roll</label>
+            <input type="radio" name="preset" id="p-prod" value="product"><label for="p-prod">Product showcase</label>
+            <input type="radio" name="preset" id="p-hype" value="hype"><label for="p-hype">High energy</label>
+          </div>
+          <span class="hint">A style fills in sensible choices. Change anything after.</span>
+        </div>
+
+        <fieldset class="group">
+          <legend>Your files</legend>
+          <div class="row2">
+            <div class="field"><label for="f-clips">Video file(s)</label><input type="text" id="f-clips" value="clip1.mp4"><span class="hint">Separate several with commas</span></div>
+            <div class="field"><label for="f-out">Save finished reel as</label><input type="text" id="f-out" value="reel-final.mp4"></div>
+          </div>
+          <div class="field">
+            <label for="f-length">Target length</label>
+            <select id="f-length">
+              <option value="15">Up to 15 seconds</option>
+              <option value="30" selected>Up to 30 seconds</option>
+              <option value="60">Up to 60 seconds</option>
+              <option value="90">Up to 90 seconds</option>
+              <option value="0">Keep whatever length it is</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="group">
+          <legend>Cuts and pacing</legend>
+          <div class="field">
+            <span class="lbl" id="lbl-pause">Remove pauses</span>
+            <div class="chips" role="radiogroup" aria-labelledby="lbl-pause">
+              <input type="radio" name="pause" id="pa-off" value="off"><label for="pa-off">Off</label>
+              <input type="radio" name="pause" id="pa-gentle" value="gentle"><label for="pa-gentle">Gentle</label>
+              <input type="radio" name="pause" id="pa-snappy" value="snappy" checked><label for="pa-snappy">Snappy</label>
+              <input type="radio" name="pause" id="pa-tight" value="tight"><label for="pa-tight">Tight + "ums"</label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-speed">Speed: <span id="speedVal">1.1x</span></label>
+            <input type="range" id="f-speed" min="1" max="1.3" step="0.05" value="1.1">
+          </div>
+        </fieldset>
+
+        <fieldset class="group">
+          <legend>Captions</legend>
+          <div class="field">
+            <span class="lbl" id="lbl-cap">Caption style</span>
+            <div class="chips" role="radiogroup" aria-labelledby="lbl-cap">
+              <input type="radio" name="cap" id="c-off" value="off"><label for="c-off">None</label>
+              <input type="radio" name="cap" id="c-clean" value="clean"><label for="c-clean">Clean</label>
+              <input type="radio" name="cap" id="c-hl" value="highlight" checked><label for="c-hl">Word highlight</label>
+              <input type="radio" name="cap" id="c-pop" value="pop"><label for="c-pop">One word pop</label>
+              <input type="radio" name="cap" id="c-box" value="boxed"><label for="c-box">Boxed</label>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="f-font">Font</label>
+              <select id="f-font">
+                <option value="Montserrat">Montserrat ExtraBold</option>
+                <option value="Poppins">Poppins Bold</option>
+                <option value="Bebas Neue">Bebas Neue</option>
+                <option value="Playfair Display">Playfair Display</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-size">Size</label>
+              <select id="f-size">
+                <option value="S">Small</option>
+                <option value="M" selected>Medium</option>
+                <option value="L">Large</option>
+              </select>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="f-tcolor">Text color</label><input type="color" id="f-tcolor" value="#FFFFFF"></div>
+            <div class="field"><label for="f-hcolor">Highlight / box color</label><input type="color" id="f-hcolor" value="#C9A84C"></div>
+          </div>
+          <div class="field">
+            <label for="f-pos">Position</label>
+            <select id="f-pos">
+              <option value="lower" selected>Lower middle (most common)</option>
+              <option value="center">Center of the screen</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="group">
+          <legend>Hook, look and brand</legend>
+          <div class="field"><label for="f-hook">Hook text for the first 3 seconds</label><input type="text" id="f-hook" value="3 editing hacks I wish I knew sooner"><span class="hint">Leave empty for no hook text</span></div>
+          <div class="field">
+            <label for="f-look">Color look</label>
+            <select id="f-look">
+              <option value="natural">Natural (no change)</option>
+              <option value="warm" selected>Warm and cozy</option>
+              <option value="bright">Bright and airy</option>
+              <option value="moody">Moody</option>
+              <option value="bw">Black and white</option>
+            </select>
+          </div>
+          <label class="toggle"><input type="checkbox" id="f-logo"> Add my logo (logo.png) in the corner</label>
+          <div class="field"><label for="f-end">End card text (last 2 seconds)</label><input type="text" id="f-end" value="Comment REELS and I'll send you the guide"><span class="hint">Leave empty for no end card</span></div>
+        </fieldset>
+
+        <fieldset class="group">
+          <legend>Music</legend>
+          <div class="field"><label for="f-music">Music file</label><input type="text" id="f-music" value=""><span class="hint">For example song.mp3. Leave empty for none, or if you'll add a trending sound in Instagram.</span></div>
+          <div class="field">
+            <label for="f-mvol">Music volume: <span id="mvolVal">15%</span></label>
+            <input type="range" id="f-mvol" min="5" max="40" step="5" value="15">
+          </div>
+          <label class="toggle"><input type="checkbox" id="f-duck" checked> Lower the music while I'm talking</label>
+        </fieldset>
+
+        <fieldset class="group">
+          <legend>Extras</legend>
+          <label class="toggle"><input type="checkbox" id="f-cover" checked> Suggest 3 cover image options</label>
+          <label class="toggle"><input type="checkbox" id="f-caption" checked> Write my Instagram post caption and hashtags</label>
+          <label class="toggle"><input type="checkbox" id="f-explain" checked> Explain the plan before editing (beginner mode)</label>
+        </fieldset>
+      </form>
+
+      <!-- preview + output -->
+      <div class="panel">
+        <div class="preview-wrap">
+          <div class="phone show-zones" id="phone" aria-label="Live preview of your reel's layout" role="img">
+            <div class="vid" id="pvVid"></div>
+            <div class="zone top">Top bar</div>
+            <div class="zone side">Buttons</div>
+            <div class="zone bottom">Username + caption</div>
+            <div class="ui" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <div class="meta" aria-hidden="true"><i style="width:45%"></i><i style="width:80%"></i></div>
+            <div class="hook" id="pvHook"></div>
+            <div class="cap" id="pvCap"></div>
+            <div class="logo" id="pvLogo" hidden>logo</div>
+            <div class="endcard" id="pvEnd"></div>
+          </div>
+          <div class="preview-side">
+            <p class="eyebrow" style="margin:0">Live preview</p>
+            <label class="toggle"><input type="checkbox" id="t-zones" checked> Show Instagram's covered areas</label>
+            <label class="toggle"><input type="checkbox" id="t-end"> Preview the end card</label>
+            <label class="toggle"><input type="checkbox" id="t-anim" checked> Animate captions</label>
+            <ul class="summary" id="summary"></ul>
+          </div>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="What to copy">
+          <button class="tab" role="tab" id="tab-one" aria-controls="panel-one" aria-selected="true">This reel</button>
+          <button class="tab" role="tab" id="tab-kit" aria-controls="panel-kit" aria-selected="false">My brand kit</button>
+        </div>
+        <div class="tabpanel" role="tabpanel" id="panel-one" aria-labelledby="tab-one">
+          <div class="prompt out"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy" data-target="outPrompt">Copy</button></div><pre id="outPrompt"></pre></div>
+        </div>
+        <div class="tabpanel" role="tabpanel" id="panel-kit" aria-labelledby="tab-kit" hidden>
+          <p style="font-size:.88rem;color:var(--mid);margin:6px 0 0">Save your style once and every future reel matches. Lesson 9 shows you how.</p>
+          <div class="prompt out"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy" data-target="outKit">Copy</button></div><pre id="outKit"></pre></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap" style="padding:0;max-width:780px;margin-left:0">
+      <h3>How to use it</h3>
+      <ol class="steps">
+        <li><div>Pick the style closest to your reel, then adjust the details. The phone updates as you go.</div></li>
+        <li><div>Keep "Show Instagram's covered areas" on. Anything in the striped areas gets hidden behind Instagram's buttons and caption text.</div></li>
+        <li><div>Click <strong>Copy</strong>, paste it into Claude Code in your Reels folder, and answer its questions.</div></li>
+        <li><div>Watch the result, and ask for small changes in your own words.</div></li>
+      </ol>
+      <div class="done-row"><button class="done-btn" data-lesson="8" aria-pressed="false">Mark lesson complete</button><small>Your choices are remembered in this browser</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LESSON 9 ══ -->
+<section class="lesson" id="lesson-9">
+  <div class="wrap">
+    <div class="lesson-head"><span class="lesson-num">9</span><p class="eyebrow">Lesson 9 · 10 min</p><h2>Your brand kit and batch editing</h2></div>
+    <div class="goal"><b>Goal</b><span>Stop repeating yourself. Save your style once, then edit a whole week of reels with one request.</span></div>
+
+    <h3>Save your brand kit</h3>
+    <p>Claude Code reads a file called <code>CLAUDE.md</code> in your folder every time it starts. Whatever you write there, it remembers: your fonts, colors, caption style, and "always explain things simply". Go to the Reel Builder, open the <strong>My brand kit</strong> tab, copy it, and paste it into Claude Code. It creates the file for you.</p>
+
+    <h3>Organize your folder</h3>
+    <div class="chat" aria-label="Suggested folder layout">
+      <p>Reels/</p>
+      <p>&nbsp;&nbsp;CLAUDE.md &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="dim">your brand kit</span></p>
+      <p>&nbsp;&nbsp;raw/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="dim">clips straight from your phone</span></p>
+      <p>&nbsp;&nbsp;assets/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="dim">logo.png, music, fonts</span></p>
+      <p>&nbsp;&nbsp;finished/ &nbsp;&nbsp;&nbsp;&nbsp;<span class="dim">ready-to-post reels</span></p>
+    </div>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>Organize this folder for me: create raw, assets and finished folders.
+Move my video clips into raw and my logo, music and font files into assets.
+Update CLAUDE.md so you always look in those folders from now on.</pre></div>
+
+    <h3>Edit five reels at once</h3>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>Edit every video in the raw folder into a Reel using my brand kit in CLAUDE.md.
+For each one, show me the transcript first so I can check spelling, then make the reel.
+Use a hook that fits what I'm talking about in each video, and show me your hook ideas before adding them.
+Save everything in finished, with the same name as the original plus "-reel".</pre></div>
+
+    <h3>Make it one click next time</h3>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>Turn the editing steps you just did into a reusable script called make-reel, so next time I can just say "run make-reel on my new clips".
+Explain in two sentences how I use it.</pre></div>
+
+    <div class="tip"><b>Batching saves the most time.</b> Film four or five reels in one session, drop them all in <code>raw</code>, and let Claude edit them while you do something else.</div>
+
+    <div class="done-row"><button class="done-btn" data-lesson="9" aria-pressed="false">Mark lesson complete</button><small>Next: exporting and posting</small></div>
+  </div>
+</section>
+
+<!-- ══ LESSON 10 ══ -->
+<section class="lesson" id="lesson-10">
+  <div class="wrap">
+    <div class="lesson-head"><span class="lesson-num">10</span><p class="eyebrow">Lesson 10 · 10 min</p><h2>Export, check and post</h2></div>
+    <div class="goal"><b>Goal</b><span>Make sure your reel looks sharp on Instagram and gets posted with a cover and caption.</span></div>
+
+    <h3>The settings Instagram likes</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Setting</th><th>Use this</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Size</td><td>1080 × 1920 (9:16)</td><td>Fills the whole phone screen</td></tr>
+        <tr><td>File type</td><td>MP4, H.264 video, AAC audio</td><td>The most reliable upload format</td></tr>
+        <tr><td>Frame rate</td><td>30 fps</td><td>Smooth, and avoids audio drifting out of sync</td></tr>
+        <tr><td>Loudness</td><td>about -14 LUFS</td><td>Not too quiet, not distorted</td></tr>
+        <tr><td>Length</td><td>Up to 3 minutes</td><td>Instagram's current Reels limit. Shorter often performs better.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Run a final check</h3>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>Check finished/clip1-reel.mp4 before I post it:
+- Is it 1080x1920, H.264, AAC, 30fps, and about -14 LUFS?
+- Grab frames at 1 second, the middle, and 2 seconds before the end, and check that no text sits in Instagram's covered areas (top 12%, bottom 20%, right edge).
+- Tell me in plain English if anything needs fixing, and fix it if I say yes.</pre></div>
+
+    <h3>Cover image and caption</h3>
+    <div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>From finished/clip1-reel.mp4:
+- Save 3 cover image options as JPGs (1080x1920) from moments where my face is clear. Add the hook text in big letters to each.
+- Write an Instagram caption from the transcript: a strong first line, 3 short value lines, a call to action, and 5 relevant hashtags. Keep it in my voice: warm, encouraging, simple.</pre></div>
+
+    <h3>Posting</h3>
+    <ol class="steps">
+      <li><div>Move the finished reel and cover to your phone (AirDrop, Google Drive, or a cable).</div></li>
+      <li><div>In Instagram, go to <strong>Settings → Data usage and media quality</strong> and turn on <strong>Upload at highest quality</strong>.</div></li>
+      <li><div>Create a Reel, choose your video, add the cover from your camera roll, paste the caption, and post.</div></li>
+    </ol>
+
+    <div class="done-row"><button class="done-btn" data-lesson="10" aria-pressed="false">Mark lesson complete</button><small>You did it! Quiz and help below.</small></div>
+  </div>
+</section>
+
+<!-- ══ FIX-IT FINDER ══ -->
+<section class="lesson" id="help">
+  <div class="wrap">
+    <p class="eyebrow">When something goes wrong</p>
+    <h2 style="font-family:var(--f-display);font-size:clamp(1.7rem,4vw,2.3rem);margin:0 0 12px">Fix-it finder</h2>
+    <p>Pick what happened. You'll get a plain explanation and a message to paste into Claude Code.</p>
+    <div class="field" style="max-width:480px">
+      <label for="fixSel">What's going on?</label>
+      <select id="fixSel"></select>
+    </div>
+    <div class="fix-out" id="fixOut" aria-live="polite"></div>
+    <div class="tip"><b>The universal fix:</b> copy the error message, paste it into Claude Code, and add "I'm a beginner, what does this mean and how do we fix it?"</div>
+
+    <h3>Glossary</h3>
+    <dl class="gloss">
+      <div><dt>Terminal / PowerShell</dt><dd>The text window where you start Claude Code. You type, it replies.</dd></div>
+      <div><dt>Folder (directory)</dt><dd>Claude Code works in the folder you started it in. Start it in your Reels folder.</dd></div>
+      <div><dt>FFmpeg</dt><dd>The free video engine Claude uses to cut, crop, add text, music and export.</dd></div>
+      <div><dt>Whisper</dt><dd>Free speech-to-text. Turns your voice into timed captions.</dd></div>
+      <div><dt>9:16</dt><dd>Tall, phone-shaped video. For Reels that's 1080 pixels wide by 1920 tall.</dd></div>
+      <div><dt>SRT file</dt><dd>A simple text file of your captions and when each one appears. You can edit it.</dd></div>
+      <div><dt>Burned-in captions</dt><dd>Captions drawn onto the video itself, so they look the same everywhere.</dd></div>
+      <div><dt>Jump cut</dt><dd>A quick cut that removes a pause, making talking videos feel faster.</dd></div>
+      <div><dt>Ducking</dt><dd>Music automatically gets quieter while you speak.</dd></div>
+      <div><dt>LUFS</dt><dd>A loudness measurement. About -14 sounds right on social media.</dd></div>
+      <div><dt>Safe zone</dt><dd>The middle part of the screen that Instagram's buttons and text don't cover.</dd></div>
+      <div><dt>CLAUDE.md</dt><dd>A notes file Claude Code reads every time it starts. Your brand kit lives here.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ══ QUIZ ══ -->
+<section class="lesson" id="quiz">
+  <div class="wrap">
+    <p class="eyebrow">Check yourself</p>
+    <h2 style="font-family:var(--f-display);font-size:clamp(1.7rem,4vw,2.3rem);margin:0 0 12px">Quick quiz</h2>
+    <p>Five questions. No pressure, and you can retry. <span class="score" id="quizScore"></span></p>
+    <div id="quizBox"></div>
+  </div>
+</section>
+
+<section class="finish">
+  <div class="wrap">
+    <h2>You can edit Reels now.</h2>
+    <p>Start with one reel this week. Use the Reel Builder, then save your brand kit. By your third reel, editing takes a single message.</p>
+    <div class="cert" id="cert"><span class="eyebrow">Course complete</span><b>Reels Studio with Claude</b><span style="color:var(--mid);font-size:.9rem">All 10 lessons finished. Go post that reel.</span></div>
+    <div class="hero-cta" style="justify-content:center"><a class="btn" href="#lesson-8">Open the Reel Builder</a><a class="btn ghost" href="https://instagram.com/avvy_digitalmom">Say hi on Instagram</a></div>
+  </div>
+</section>
+
+<div class="footer"><div class="wrap">Made with love for beginners. <strong>♥ @avvy_digitalmom</strong></div></div>
+
+<script>
+(function () {
+  var TOTAL = 10;
+  var KEY = 'reelsStudio.v1';
+  function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
+  function save(d) { try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {} }
+  var store = load();
+  store.done = store.done || {};
+
+  /* ── copy buttons ── */
+  function flash(btn, txt) {
+    var old = btn.textContent; btn.textContent = txt; btn.classList.add('ok');
+    setTimeout(function () { btn.textContent = old; btn.classList.remove('ok'); }, 1600);
+  }
+  function selectText(el) {
+    var r = document.createRange(); r.selectNodeContents(el);
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.copy'); if (!btn) return;
+    var pre = btn.dataset.target ? document.getElementById(btn.dataset.target) : btn.closest('.prompt').querySelector('pre');
+    var text = pre.textContent;
+    try {
+      navigator.clipboard.writeText(text).then(function () { flash(btn, 'Copied'); }, function () { selectText(pre); flash(btn, 'Press Ctrl/Cmd+C'); });
+    } catch (err) { selectText(pre); flash(btn, 'Press Ctrl/Cmd+C'); }
+  });
+
+  /* ── tabs ── */
+  document.querySelectorAll('[role="tablist"]').forEach(function (list) {
+    var tabs = list.querySelectorAll('[role="tab"]');
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) {
+          var on = t === tab; t.setAttribute('aria-selected', on);
+          document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+        });
+      });
+    });
+  });
+  if (/Win/i.test(navigator.platform || navigator.userAgent)) document.getElementById('tab-win').click();
+
+  /* ── progress ── */
+  function renderProgress() {
+    var n = 0;
+    for (var i = 1; i <= TOTAL; i++) {
+      var on = !!store.done[i]; if (on) n++;
+      var b = document.querySelector('.done-btn[data-lesson="' + i + '"]');
+      if (b) { b.setAttribute('aria-pressed', on); b.textContent = on ? 'Completed' : 'Mark lesson complete'; }
+      var m = document.querySelector('[data-map="' + i + '"]');
+      if (m) {
+        m.classList.toggle('is-done', on);
+        var st = m.querySelector('.st');
+        st.dataset.time = st.dataset.time || st.textContent;
+        st.textContent = on ? 'Done' : st.dataset.time;
+      }
+    }
+    document.getElementById('progressFill').style.width = (n / TOTAL * 100) + '%';
+    document.getElementById('progressCount').textContent = n + ' of ' + TOTAL + ' lessons';
+    document.getElementById('cert').classList.toggle('on', n === TOTAL);
+  }
+  document.querySelectorAll('.done-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var k = b.dataset.lesson; store.done[k] = !store.done[k]; save(store); renderProgress();
+    });
+  });
+  renderProgress();
+
+  /* ── reel builder ── */
+  var $ = function (id) { return document.getElementById(id); };
+  var PRESETS = {
+    talk:      { pause: 'snappy', speed: 1.1,  cap: 'highlight', font: 'Montserrat', size: 'M', tcolor: '#FFFFFF', hcolor: '#C9A84C', pos: 'lower', look: 'warm',    length: '30', mvol: 15, duck: true },
+    aesthetic: { pause: 'off',    speed: 1,    cap: 'clean',     font: 'Playfair Display', size: 'S', tcolor: '#FFFFFF', hcolor: '#F5D6D6', pos: 'center', look: 'bright', length: '15', mvol: 35, duck: false },
+    product:   { pause: 'gentle', speed: 1.05, cap: 'boxed',     font: 'Poppins', size: 'M', tcolor: '#2C2C2C', hcolor: '#F5D6D6', pos: 'lower', look: 'bright',  length: '30', mvol: 20, duck: true },
+    hype:      { pause: 'tight',  speed: 1.2,  cap: 'pop',       font: 'Bebas Neue', size: 'L', tcolor: '#FFFFFF', hcolor: '#C9858A', pos: 'center', look: 'moody', length: '15', mvol: 25, duck: true }
+  };
+  var IDS = ['f-clips','f-out','f-length','f-speed','f-font','f-size','f-tcolor','f-hcolor','f-pos','f-hook','f-look','f-logo','f-end','f-music','f-mvol','f-duck','f-cover','f-caption','f-explain'];
+  function radio(name) { var r = document.querySelector('input[name="' + name + '"]:checked'); return r ? r.value : ''; }
+  function setRadio(name, v) { var r = document.querySelector('input[name="' + name + '"][value="' + v + '"]'); if (r) r.checked = true; }
+  function val(id) { var el = $(id); return el.type === 'checkbox' ? el.checked : el.value; }
+  function setVal(id, v) { var el = $(id); if (el.type === 'checkbox') el.checked = !!v; else el.value = v; }
+
+  function applyPreset(p) {
+    var d = PRESETS[p]; if (!d) return;
+    setRadio('pause', d.pause); setRadio('cap', d.cap);
+    setVal('f-speed', d.speed); setVal('f-font', d.font); setVal('f-size', d.size);
+    setVal('f-tcolor', d.tcolor); setVal('f-hcolor', d.hcolor); setVal('f-pos', d.pos);
+    setVal('f-look', d.look); setVal('f-length', d.length); setVal('f-mvol', d.mvol); setVal('f-duck', d.duck);
+  }
+
+  function state() {
+    var s = { preset: radio('preset'), pause: radio('pause'), cap: radio('cap') };
+    IDS.forEach(function (id) { s[id.slice(2)] = val(id); });
+    s.speed = parseFloat(s.speed); s.mvol = parseInt(s.mvol, 10);
+    return s;
+  }
+
+  var FONT_DESC = { 'Montserrat': 'Montserrat ExtraBold', 'Poppins': 'Poppins Bold', 'Bebas Neue': 'Bebas Neue', 'Playfair Display': 'Playfair Display Bold' };
+  var SIZE_DESC = { S: 'small (about 55px tall on a 1920px video)', M: 'medium (about 75px tall)', L: 'large (about 100px tall)' };
+  var LOOK_DESC = {
+    warm: 'Make the colors slightly warmer, like golden hour, and add about 5% saturation. Keep skin tones natural.',
+    bright: 'Brighten it a little and soften the shadows for a bright, airy look. Keep skin tones natural.',
+    moody: 'Add a bit more contrast and lower the saturation slightly for a moody look.',
+    bw: 'Make it black and white with a little extra contrast.'
+  };
+  var PAUSE_DESC = {
+    gentle: 'Remove pauses longer than 1 second. Leave about 0.2 seconds before and after each sentence.',
+    snappy: 'Remove pauses longer than 0.5 seconds. Leave about 0.15 seconds before and after each sentence so the cuts don\'t feel abrupt.',
+    tight: 'Remove pauses longer than 0.3 seconds, and cut out filler sounds like "um" and "uh" (use the transcript to find them). Leave about 0.1 seconds around each cut.'
+  };
+
+  function capDesc(s) {
+    var base = 'Font: ' + FONT_DESC[s.font] + ' (download it from Google Fonts if it isn\'t installed). Size: ' + SIZE_DESC[s.size] + '. Text color ' + s.tcolor.toUpperCase();
+    var where = s.pos === 'center' ? 'centered vertically on the screen' : 'about 65% of the way down the screen';
+    if (s.cap === 'clean') return 'Simple subtitles, one line at a time (up to 6 words). ' + base + ' with a soft shadow. Place them ' + where + '.';
+    if (s.cap === 'highlight') return 'Show 2 to 4 words at a time, max 2 lines. ' + base + ' with a thin black outline. Highlight the word being spoken in ' + s.hcolor.toUpperCase() + ' (use word-level timestamps). Place them ' + where + '.';
+    if (s.cap === 'pop') return 'Show ONE word at a time, big, with a quick pop-in (scale from 80% to 100%). ' + base + ' with a thick black outline. Key words in ' + s.hcolor.toUpperCase() + '. Place them ' + where + '.';
+    if (s.cap === 'boxed') return 'Show 3 to 5 words at a time on a rounded box in ' + s.hcolor.toUpperCase() + '. ' + base + '. Place them ' + where + '.';
+    return '';
+  }
+
+  function buildPrompt(s) {
+    var clips = s.clips.split(',').map(function (c) { return c.trim(); }).filter(Boolean);
+    if (!clips.length) clips = ['clip1.mp4'];
+    var out = s.out.trim() || 'reel-final.mp4';
+    var L = [];
+    L.push('Please edit an Instagram Reel for me. I\'m a beginner, so keep explanations simple.');
+    L.push('');
+    L.push('My video: ' + clips.join(', ') + (clips.length > 1 ? ' (join them in this order)' : '') + '.');
+    if (s.music.trim()) L.push('Music: ' + s.music.trim() + '.');
+    if (s.logo) L.push('Logo: logo.png.');
+    L.push('Save the result as ' + out + '. Never change or delete my original files.');
+    L.push('');
+    L.push('Do these steps in order:');
+    var n = 0, steps = [];
+    steps.push('Make it vertical 1080x1920 (9:16). If a clip is horizontal, crop around the person so their face stays in frame.' + (clips.length > 1 ? ' Make all clips match in size and volume, with a 0.2 second crossfade between them.' : ''));
+    var needsTranscript = s.cap !== 'off' || s.pause === 'tight' || s.caption;
+    if (needsTranscript) steps.push('Transcribe my speech with Whisper (with word-level timestamps). Show me the full text and wait for me to confirm spelling of names and brand words before going on.');
+    if (s.pause !== 'off') steps.push(PAUSE_DESC[s.pause]);
+    if (s.length !== '0') steps.push('Keep the total length under ' + s.length + ' seconds. If it\'s longer, suggest which parts to cut and ask me before cutting them.');
+    if (s.speed > 1.001) steps.push('Speed the video up to ' + s.speed.toFixed(2).replace(/0$/, '') + 'x and keep my voice sounding natural, not chipmunky.');
+    if (s.look !== 'natural') steps.push('Color: ' + LOOK_DESC[s.look]);
+    if (s.cap !== 'off') steps.push('Captions, burned into the video. ' + capDesc(s) + ' Keep every caption inside Instagram\'s safe zone: nothing in the top 12%, the bottom 20%, or the right 15% of the screen.');
+    if (s.hook.trim()) steps.push('Hook: show the text "' + s.hook.trim() + '" for the first 3 seconds, in big bold Poppins, dark text on a white rounded box, centered in the top third (below the top 12%). Fade it out quickly at 3 seconds.');
+    if (s.logo) steps.push('Put logo.png small in the top-right corner (inside the safe zone) at 80% opacity for the whole video.');
+    if (s.music.trim()) steps.push('Mix ' + s.music.trim() + ' under my voice at about ' + s.mvol + '% volume' + (s.duck ? ', and lower it automatically while I\'m talking (sidechain ducking)' : '') + '. Fade the music in over 1 second and out over the last 2 seconds. Trim or loop it to fit.');
+    if (s.end.trim()) steps.push('End card: add 2 seconds at the end with a soft blush pink background (#F5D6D6) and the text "' + s.end.trim() + '" in dark, bold text, centered.');
+    steps.push('Export: MP4, H.264 video, AAC audio, 30fps, high quality, loudness about -14 LUFS.');
+    if (s.cover) steps.push('Cover: save 3 cover image options as JPGs (1080x1920) from moments where my face is clear' + (s.hook.trim() ? ', with the hook text on each' : '') + '. Name them cover-1.jpg, cover-2.jpg, cover-3.jpg.');
+    if (s.caption) steps.push('Write my Instagram caption from the transcript: a strong first line, 3 short value lines, a call to action, and 5 relevant hashtags. Save it as caption.txt.');
+    steps.push('Check your work: grab frames at 1 second, the middle, and near the end, and look at them to make sure no text is covered or cut off.');
+    steps.forEach(function (t) { n++; L.push(n + '. ' + t); });
+    L.push('');
+    if (s.explain) L.push('Before you start, explain your plan in 3 to 5 plain-English bullets. Ask me before installing anything.');
+    L.push('When you\'re done, tell me where the file is, how long it is, and anything I might want to tweak.');
+    return L.join('\n');
+  }
+
+  function buildKit(s) {
+    var L = [];
+    L.push('Create a file called CLAUDE.md in this folder with my reel brand kit below, so you follow it for every reel from now on. Then read it back to me.');
+    L.push('');
+    L.push('# My Reel Brand Kit');
+    L.push('');
+    L.push('## About me');
+    L.push('- I\'m a beginner. Explain things simply and tell me your plan before editing.');
+    L.push('- Never change or delete my original clips. Save finished reels in the finished folder.');
+    L.push('- Ask before installing anything.');
+    L.push('');
+    L.push('## Every reel');
+    L.push('- Vertical 1080x1920, MP4, H.264, AAC, 30fps, about -14 LUFS.');
+    L.push('- Keep text out of Instagram\'s covered areas: top 12%, bottom 20%, right 15%.');
+    if (s.length !== '0') L.push('- Target length: under ' + s.length + ' seconds.');
+    if (s.pause !== 'off') L.push('- Pauses: ' + PAUSE_DESC[s.pause]);
+    if (s.speed > 1.001) L.push('- Speed: ' + s.speed.toFixed(2).replace(/0$/, '') + 'x, voice kept natural.');
+    if (s.look !== 'natural') L.push('- Color look: ' + LOOK_DESC[s.look]);
+    L.push('');
+    L.push('## Captions');
+    if (s.cap === 'off') L.push('- No captions unless I ask.');
+    else {
+      L.push('- ' + capDesc(s));
+      L.push('- Always show me the transcript to check spelling before burning captions in.');
+    }
+    L.push('');
+    L.push('## Brand');
+    L.push('- Hook text: first 3 seconds, big bold Poppins, dark text on a white rounded box, top third.');
+    if (s.logo) L.push('- Logo: assets/logo.png, top-right corner, 80% opacity.');
+    if (s.end.trim()) L.push('- End card: 2 seconds, blush pink (#F5D6D6) background, dark bold text. Default text: "' + s.end.trim() + '".');
+    L.push('- Brand colors: blush #F5D6D6, rose #C9858A, gold #C9A84C, charcoal #2C2C2C.');
+    if (s.music.trim()) L.push('- Music: about ' + s.mvol + '% volume' + (s.duck ? ', ducked under my voice' : '') + ', 1s fade in, 2s fade out.');
+    L.push('');
+    L.push('## After every reel');
+    if (s.cover) L.push('- Suggest 3 cover images from moments where my face is clear.');
+    if (s.caption) L.push('- Write a caption in my voice (warm, encouraging, simple) with a call to action and 5 hashtags.');
+    L.push('- Check frames for covered or cut-off text before telling me it\'s done.');
+    return L.join('\n');
+  }
+
+  /* preview */
+  var SAMPLE = 'Here\'s the one trick that saved me three hours every week'.split(' ');
+  var FILTERS = { natural: 'none', warm: 'sepia(.22) saturate(1.2) hue-rotate(-6deg)', bright: 'brightness(1.12) contrast(.92) saturate(1.05)', moody: 'contrast(1.2) saturate(.75) brightness(.88)', bw: 'grayscale(1) contrast(1.1)' };
+  var SIZES = { S: 13, M: 17, L: 22 };
+  var tick = 0, timer = null;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) $('t-anim').checked = false;
+
+  function esc(t) { return t.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  function renderCaption(s) {
+    var cap = $('pvCap');
+    if (s.cap === 'off') { cap.innerHTML = ''; return; }
+    var size = SIZES[s.size] * (s.cap === 'pop' ? 1.35 : 1) * (s.font === 'Bebas Neue' ? 1.2 : 1);
+    var weight = s.font === 'Montserrat' ? 800 : (s.font === 'Bebas Neue' ? 400 : 700);
+    cap.style.font = weight + ' ' + size + 'px/1.15 "' + s.font + '", sans-serif';
+    cap.style.top = s.pos === 'center' ? '46%' : '62%';
+    cap.style.color = s.tcolor;
+    var outline = s.cap === 'clean' ? '0 1px 3px rgba(0,0,0,.7)' : '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 2px 3px rgba(0,0,0,.5)';
+    cap.className = 'cap' + (s.cap === 'pop' ? ' pop' : '');
+    var html = '';
+    if (s.cap === 'pop') {
+      var w = SAMPLE[tick % SAMPLE.length];
+      var key = /trick|three|hours/i.test(w);
+      html = '<span class="w" style="text-shadow:' + outline + ';color:' + (key ? s.hcolor : s.tcolor) + ';text-transform:uppercase">' + esc(w) + '</span>';
+    } else {
+      var per = s.cap === 'clean' ? 6 : (s.cap === 'boxed' ? 4 : 3);
+      var chunks = Math.ceil(SAMPLE.length / per);
+      var c = Math.floor(tick / per) % chunks;
+      var words = SAMPLE.slice(c * per, c * per + per);
+      var active = tick % per;
+      var inner = words.map(function (w, i) {
+        var col = (s.cap === 'highlight' && i === active) ? s.hcolor : s.tcolor;
+        return '<span class="w" style="color:' + col + ';text-shadow:' + (s.cap === 'boxed' ? 'none' : outline) + '">' + esc(w) + '</span>';
+      }).join(' ');
+      if (s.cap === 'boxed') html = '<span style="display:inline-block;background:' + s.hcolor + ';padding:4px 8px;border-radius:8px">' + inner + '</span>';
+      else html = inner;
+      if (s.cap === 'clean') cap.style.fontSize = (size * 0.85) + 'px';
+    }
+    cap.innerHTML = html;
+  }
+
+  function renderPreview(s) {
+    $('pvVid').style.filter = FILTERS[s.look];
+    var hook = $('pvHook');
+    if (s.hook.trim()) {
+      hook.hidden = false;
+      hook.style.background = '#FFFFFF'; hook.style.color = '#2C2C2C';
+      hook.innerHTML = esc(s.hook.trim()) + '<span class="when">first 3 sec</span>';
+    } else hook.hidden = true;
+    $('pvLogo').hidden = !s.logo;
+    $('pvEnd').textContent = s.end.trim() || 'No end card set';
+    $('pvEnd').style.background = s.end.trim() ? 'rgba(245,214,214,.95)' : 'rgba(30,24,25,.78)';
+    $('pvEnd').style.color = s.end.trim() ? '#2C2C2C' : '#FFFFFF';
+    renderCaption(s);
+  }
+
+  function renderSummary(s) {
+    var capNames = { off: 'None', clean: 'Clean', highlight: 'Word highlight', pop: 'One word pop', boxed: 'Boxed' };
+    var pauseNames = { off: 'Off', gentle: 'Gentle', snappy: 'Snappy', tight: 'Tight' };
+    var rows = [
+      ['Length', s.length === '0' ? 'As filmed' : 'Under ' + s.length + 's'],
+      ['Pauses', pauseNames[s.pause] + (s.speed > 1.001 ? ', ' + s.speed.toFixed(2).replace(/0$/, '') + 'x speed' : '')],
+      ['Captions', capNames[s.cap] + (s.cap !== 'off' ? ', ' + FONT_DESC[s.font] : '')],
+      ['Music', s.music.trim() ? s.music.trim() + ' at ' + s.mvol + '%' : 'None']
+    ];
+    $('summary').innerHTML = rows.map(function (r) { return '<li><b>' + r[0] + '</b><span>' + esc(r[1]) + '</span></li>'; }).join('');
+  }
+
+  function render() {
+    var s = state();
+    $('speedVal').textContent = s.speed.toFixed(2).replace(/0$/, '') + 'x';
+    $('mvolVal').textContent = s.mvol + '%';
+    renderPreview(s); renderSummary(s);
+    $('outPrompt').textContent = buildPrompt(s);
+    $('outKit').textContent = buildKit(s);
+    store.builder = s; save(store);
+  }
+
+  function animate() {
+    clearInterval(timer);
+    if ($('t-anim').checked) timer = setInterval(function () { tick++; renderCaption(state()); }, 420);
+  }
+
+  // restore saved choices
+  if (store.builder) {
+    var b = store.builder;
+    setRadio('preset', b.preset); setRadio('pause', b.pause); setRadio('cap', b.cap);
+    IDS.forEach(function (id) { var k = id.slice(2); if (k in b) setVal(id, b[k]); });
+  }
+
+  $('builder').addEventListener('input', function (e) {
+    if (e.target.name === 'preset') applyPreset(e.target.value);
+    render();
+  });
+  $('builder').addEventListener('change', function (e) {
+    if (e.target.name === 'preset') { applyPreset(e.target.value); render(); }
+  });
+  $('builder').addEventListener('submit', function (e) { e.preventDefault(); });
+  $('t-zones').addEventListener('change', function () { $('phone').classList.toggle('show-zones', this.checked); });
+  $('t-end').addEventListener('change', function () { $('phone').classList.toggle('show-end', this.checked); });
+  $('t-anim').addEventListener('change', animate);
+  render(); animate();
+
+  /* ── fix-it finder ── */
+  var FIXES = [
+    { q: '"command not found: claude"', why: 'Your terminal opened before the install finished, so it doesn\'t know Claude Code exists yet.', fix: 'Close Terminal or PowerShell completely, open it again, and type claude. Still missing? Run the install line from Lesson 2 again and read the last few lines it prints.', p: '' },
+    { q: 'Claude can\'t find my video', why: 'Claude Code only sees the folder you started it in. Your video is probably somewhere else, or named slightly differently.', fix: 'Quit Claude (type /exit), go into your Reels folder with cd, and start it again. Or paste this:', p: 'List every video file in this folder and its subfolders, with their exact names.' },
+    { q: 'It keeps asking permission', why: 'That\'s a safety feature. Claude asks before running commands on your computer.', fix: 'When it asks about an FFmpeg command you\'re comfortable with, choose "Yes, and don\'t ask again". It will still ask about new kinds of actions.', p: '' },
+    { q: 'Captions have wrong words', why: 'Whisper mishears names, brand words and slang.', fix: 'Fix the text before it\'s burned in:', p: 'Show me the caption text with line numbers. Change these words: [wrong word] should be [right word]. Then burn the corrected captions in again.' },
+    { q: 'Captions are hidden behind Instagram buttons', why: 'They\'re sitting in the bottom 20% or the right edge, where Instagram puts its buttons and your caption.', fix: 'Move them up and narrow them:', p: 'Move the captions up to about 60% of the way down the screen, and keep them away from the right 15% of the screen. Show me a still frame so I can check.' },
+    { q: 'Video looks blurry on Instagram', why: 'Usually the file was compressed when you moved it to your phone, or Instagram\'s upload quality setting is off.', fix: 'Move files with AirDrop, a cable or Google Drive, and turn on Settings → Data usage and media quality → Upload at highest quality. Also ask:', p: 'Re-export my reel at a higher quality (H.264, 1080x1920, 30fps, around 12 Mbps). Keep everything else the same.' },
+    { q: 'Sound is out of sync with my mouth', why: 'Phones often record at a changing frame rate, which can make audio drift after editing.', fix: 'Convert the original to a steady frame rate first:', p: 'My audio drifts out of sync. Convert the original clip to a constant 30fps first, then redo the edit from that version.' },
+    { q: 'iPhone video looks washed out or grey', why: 'iPhones record in HDR, and some edits turn HDR colors flat.', fix: 'Ask Claude to convert it properly:', p: 'This iPhone video is HDR and looks washed out after editing. Convert it from HDR to normal (SDR) colors with proper tone mapping, then redo the edit.' },
+    { q: 'Video is sideways or upside down', why: 'The phone saved the rotation as a note in the file, and it got lost.', fix: 'Paste this:', p: 'My video is sideways. Rotate it so it\'s upright (90 degrees clockwise), then keep going with the edit.' },
+    { q: 'Music is too loud or too quiet', why: 'Every song is mixed at a different loudness.', fix: 'Just describe it:', p: 'The music is too loud. Lower it to about 10% and make sure my voice is always clearly louder than the music.' },
+    { q: 'It\'s taking a long time', why: 'Captions and long videos take real computing time, especially the first time while tools download.', fix: 'Waiting a few minutes is normal. For quicker test runs:', p: 'Make a quick low-quality preview of just the first 10 seconds so I can check the style before you do the full video.' }
+  ];
+  var sel = $('fixSel');
+  FIXES.forEach(function (f, i) { var o = document.createElement('option'); o.value = i; o.textContent = f.q.replace(/"/g, ''); sel.appendChild(o); });
+  function renderFix() {
+    var f = FIXES[sel.value];
+    var h = '<h4>Why it happens</h4><p>' + esc(f.why) + '</p><h4>What to do</h4><p>' + esc(f.fix) + '</p>';
+    if (f.p) h += '<div class="prompt"><div class="prompt-head"><span>Paste into Claude Code</span><button class="copy">Copy</button></div><pre>' + esc(f.p) + '</pre></div>';
+    $('fixOut').innerHTML = h;
+  }
+  sel.addEventListener('change', renderFix); renderFix();
+
+  /* ── quiz ── */
+  var QUIZ = [
+    { q: 'What size is a full-screen Instagram Reel?', o: ['1080 × 1080', '1920 × 1080', '1080 × 1920'], a: 2, why: '1080 wide by 1920 tall, which is 9:16.' },
+    { q: 'Where should you start Claude Code?', o: ['Anywhere, it finds everything', 'In the folder that holds your clips', 'Inside Instagram'], a: 1, why: 'Claude Code works in the folder you start it in.' },
+    { q: 'What does Whisper do?', o: ['Turns your speech into timed captions', 'Adds background music', 'Posts to Instagram'], a: 0, why: 'Whisper is speech-to-text. FFmpeg then draws the captions on.' },
+    { q: 'Captions keep getting covered. Where is the problem area?', o: ['The middle of the screen', 'The bottom 20% and right edge', 'Only the top corner'], a: 1, why: 'Instagram puts your username, caption and buttons there.' },
+    { q: 'What is CLAUDE.md for?', o: ['It\'s the finished video', 'It stores your brand kit so Claude remembers your style', 'It installs FFmpeg'], a: 1, why: 'Claude Code reads it every time it starts in that folder.' }
+  ];
+  var answered = {};
+  var qb = $('quizBox');
+  QUIZ.forEach(function (item, qi) {
+    var d = document.createElement('div'); d.className = 'q';
+    d.innerHTML = '<p>' + (qi + 1) + '. ' + esc(item.q) + '</p><div class="opts"></div><div class="why" hidden></div>';
+    item.o.forEach(function (opt, oi) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = opt;
+      b.addEventListener('click', function () {
+        d.querySelectorAll('button').forEach(function (x) { x.classList.remove('right', 'wrong'); });
+        var ok = oi === item.a;
+        b.classList.add(ok ? 'right' : 'wrong');
+        var w = d.querySelector('.why'); w.hidden = false;
+        w.textContent = (ok ? 'Correct. ' : 'Not quite. ') + item.why;
+        answered[qi] = ok;
+        var got = Object.keys(answered).filter(function (k) { return answered[k]; }).length;
+        $('quizScore').textContent = got + ' of ' + QUIZ.length + ' correct';
+      });
+      d.querySelector('.opts').appendChild(b);
+    });
+    qb.appendChild(d);
+  });
+})();
+</script>
+</body>
+</html>
