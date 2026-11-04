@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Edit Kit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Video editing with Claude, with 97 styles. You film it, Claude edits it in your brand colors and fonts. $27 by @avvydigital_mom.">
+<meta property="og:title" content="Edit Kit: video editing with Claude, 97 styles">
+<meta property="og:description" content="You film it. Claude edits it. You get your evening back. $27 by @avvydigital_mom.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Caveat:wght@700&display=swap">
+<style>
+/* Layout: @avvydigital_mom's feed as a page. Burgundy tiles with serif headlines and gold italic turns, cream reading sections between them, a ticket-style offer at the end. */
+:root{
+  --cream:#FBF4EF; --paper:#FFFFFF; --ink:#2B161C; --muted:#6E5A5F; --line:#EBDCD8; --blush:#F4DEDD;
+  --wine:#6B1A2C; --wine-deep:#4E1220; --wine-ink:#FBF4EF; --wine-muted:#E3C9CC;
+  --gold:#E2C47A; --gold-deep:#A8842F; --rose:#C9858A;
+  --serif:'Playfair Display',Georgia,'Times New Roman',serif;
+  --sans:'DM Sans','Avenir Next','Segoe UI',system-ui,sans-serif;
+  --hand:'Caveat','Segoe Print','Bradley Hand',cursive;
+  --kp:#6B1A2C; --ka:#E2C47A; --kt:#FFFFFF; --kh:var(--serif); --kc:var(--sans);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --cream:#1A0F12; --paper:#24161A; --ink:#F6ECE8; --muted:#C2ABAF; --line:#3A262B; --blush:#3A1E25;
+  --wine:#5A1424; --wine-deep:#3A0C17; --gold-deep:#E2C47A; --rose:#E0A3A8; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --cream:#1A0F12; --paper:#24161A; --ink:#F6ECE8; --muted:#C2ABAF; --line:#3A262B; --blush:#3A1E25;
+  --wine:#5A1424; --wine-deep:#3A0C17; --gold-deep:#E2C47A; --rose:#E0A3A8; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.narrow{max-width:740px}
+h1,h2,h3{text-wrap:balance;margin:0;font-family:var(--serif);font-weight:700}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px}
+.eyebrow{font:700 12.5px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--rose)}
+.on-wine .eyebrow{color:var(--gold)}
+.hand{font:700 24px/1 var(--hand);color:var(--rose)}
+em.g{font-style:italic;color:var(--gold)}
+em.w{font-style:italic;color:var(--wine)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) em.w{color:var(--rose)} }
+:root[data-theme="dark"] em.w{color:var(--rose)}
+
+/* buttons */
+.buy{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--gold);color:var(--wine-deep);text-decoration:none;font:700 17px var(--sans);letter-spacing:.01em;padding:16px 26px;border-radius:999px;box-shadow:0 12px 26px -14px rgba(0,0,0,.6);transition:transform .15s ease}
+.buy:hover{transform:translateY(-2px)}
+.buy .price{background:var(--wine-deep);color:var(--gold);border-radius:999px;padding:2px 10px;font-size:15px}
+.buy.dark{background:var(--wine);color:var(--wine-ink)}
+.buy.dark .price{background:var(--gold);color:var(--wine-deep)}
+.micro{font-size:14px;margin-top:12px;opacity:.85}
+
+/* burgundy tiles */
+.on-wine{background:var(--wine);color:var(--wine-ink)}
+.on-wine .muted{color:var(--wine-muted)}
+.heroband{position:relative;overflow:hidden}
+.heroband::after{content:"";position:absolute;width:520px;height:520px;border-radius:50%;right:-160px;top:-200px;background:var(--wine-deep);opacity:.55;pointer-events:none}
+.hero{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;align-items:center;padding-block:56px 52px}
+.hero > *{min-width:0}
+.handle{font:500 13px var(--sans);opacity:.75;letter-spacing:.02em}
+.hero h1{font-size:clamp(42px,6.2vw,78px);line-height:1.02;letter-spacing:-.015em;margin:16px 0 20px}
+.hero .sub{font-size:clamp(17px,1.9vw,19px);color:var(--wine-muted);max-width:32em;margin-bottom:28px}
+.hero .sub b{color:var(--wine-ink);font-weight:700}
+.rule{width:64px;height:2px;background:var(--gold);margin:0 0 20px}
+
+.stage{position:relative;display:grid;justify-items:center;gap:18px}
+.phones{display:flex;align-items:flex-end;justify-content:center;gap:12px;width:100%}
+.phone{background:#140A0D;border-radius:26px;padding:7px;box-shadow:0 26px 50px -22px rgba(0,0,0,.7)}
+.phone .sk{display:block;height:300px;width:auto;border-radius:20px}
+.phone.side .sk{height:250px}
+.phone.l{transform:rotate(-5deg) translateY(8px)}
+.phone.r{transform:rotate(5deg) translateY(8px)}
+.tryline{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px}
+.tryline .hand{color:var(--gold)}
+.swatches{display:flex;gap:6px}
+.swatch{border:2px solid var(--wine);outline:1px solid rgba(255,255,255,.35);width:34px;height:34px;border-radius:50%;padding:0;cursor:pointer;background:conic-gradient(var(--c1) 0 50%,var(--c2) 0 100%)}
+.swatch[aria-pressed="true"]{outline:2px solid var(--gold)}
+
+/* real videos */
+.proof{padding-block:60px 20px}
+.proof-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px 24px;margin-bottom:24px}
+.proof h2{font-size:clamp(30px,4.2vw,46px);line-height:1.08;margin-top:10px}
+.proof p.note{color:var(--muted);max-width:26em}
+.reels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:760px}
+.reel{display:grid;gap:12px;min-width:0}
+.reel .frame{position:relative;border-radius:24px;overflow:hidden;background:#140A0D;aspect-ratio:9/16;max-width:100%;box-shadow:0 26px 50px -26px rgba(43,22,28,.6)}
+.reel video{width:100%;height:100%;object-fit:cover;display:block}
+.sound{position:absolute;right:12px;bottom:12px;border:0;border-radius:999px;background:rgba(20,10,13,.72);color:#fff;font:700 13px var(--sans);padding:8px 14px;cursor:pointer;backdrop-filter:blur(6px)}
+.reel b{font:700 19px/1.25 var(--serif)}
+.reel span{display:block;font-size:14px;color:var(--muted)}
+.reel span.tag{display:inline-block;font:700 11.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--wine);background:var(--blush);border-radius:999px;padding:3px 10px;margin-bottom:6px}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tag{color:var(--gold)} }
+:root[data-theme="dark"] .tag{color:var(--gold)}
+
+/* sections */
+.sec{padding-block:60px}
+.sec h2{font-size:clamp(30px,4.2vw,46px);line-height:1.1;margin:10px 0 22px}
+.prose{display:grid;gap:16px;font-size:19px}
+.prose .muted{color:var(--muted)}
+.on-wine .prose .muted{color:var(--wine-muted)}
+.fails{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:30px}
+.fail{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px 20px;min-width:0}
+.fail h3{font-size:19px;margin-bottom:6px}
+.fail p{color:var(--muted);font-size:16px}
+.fail.win{grid-column:1/-1;background:var(--wine);border-color:transparent;color:var(--wine-ink)}
+.fail.win h3{color:var(--gold);font-style:italic}
+.fail.win p{color:var(--wine-muted)}
+
+.codes{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0}
+.code{font:700 15px var(--sans);letter-spacing:.06em;background:rgba(255,255,255,.1);border:1px solid rgba(226,196,122,.4);border-radius:10px;padding:5px 11px;color:var(--gold)}
+.code i{font-style:normal;font-weight:500;letter-spacing:0;color:var(--wine-muted);margin-left:6px}
+.walk{font:700 italic clamp(30px,4vw,40px)/1.1 var(--serif);color:var(--gold)}
+.names{border-top:1px solid rgba(226,196,122,.35);padding-top:16px;font-size:16px;color:var(--wine-muted)}
+.names b{color:var(--wine-ink);font-weight:700}
+
+/* contents */
+.gets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:26px}
+.get{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px 22px;min-width:0;display:grid;gap:6px;align-content:start}
+.get h3{font-size:20px;line-height:1.25}
+.get p{color:var(--muted);font-size:16px}
+.get .n{font:700 12px var(--sans);letter-spacing:.16em;color:var(--rose);text-transform:uppercase}
+.get.span{grid-column:1/-1;background:var(--blush);border-color:transparent}
+
+/* fit */
+.fit{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:22px}
+.col{border-radius:20px;padding:24px;min-width:0}
+.col.yes{background:var(--paper);border:1px solid var(--line)}
+.col.no{background:var(--blush)}
+.col h3{font-size:21px;margin-bottom:14px}
+.col ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+.col li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;font-size:16px}
+.col li b{font-weight:700}
+.col li span{color:var(--muted)}
+.mk{font-weight:700;color:var(--gold-deep)}
+.col.no .mk{color:var(--muted)}
+.need{margin-top:14px;border:1.5px solid var(--wine);border-radius:20px;padding:20px 24px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .need{border-color:var(--rose)} }
+:root[data-theme="dark"] .need{border-color:var(--rose)}
+.need .hand{font-size:30px}
+.need ul{margin:0;padding-left:18px;display:grid;gap:4px}
+
+/* affiliate */
+.aff{display:flex;flex-wrap:wrap;gap:20px 30px;align-items:center;justify-content:space-between;border-radius:24px;padding:30px}
+.aff h2{font-size:clamp(26px,3.2vw,34px);line-height:1.1;margin:8px 0 8px}
+.aff p{color:var(--wine-muted);max-width:34em}
+.aff .big{font:700 clamp(64px,9vw,96px)/1 var(--serif);color:var(--gold);font-style:italic}
+.aff .big small{display:block;font:700 14px var(--sans);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--wine-muted);margin-top:8px;text-align:right}
+
+/* faq */
+.faq{display:grid;gap:10px;margin-top:20px}
+details{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:4px 20px}
+summary{cursor:pointer;font:700 18px/1.35 var(--serif);padding-block:15px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--gold-deep);font:700 24px/1 var(--sans)}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);padding-bottom:16px;font-size:16px}
+
+/* offer */
+.offer{background:var(--paper);border:1.5px solid var(--wine);border-radius:28px;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)}
+.offer .left{padding:32px}
+.offer .right{padding:32px;display:grid;align-content:center;justify-items:start;gap:8px;border-left:2px dashed var(--cream)}
+.offer h2{font-size:clamp(26px,3.4vw,36px);line-height:1.12;margin:8px 0 18px}
+.offer ul{margin:0;padding:0;list-style:none;display:grid;gap:9px}
+.offer li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:6px}
+.offer li::before{content:"✓";font-weight:700;color:var(--gold-deep)}
+.offer .amt{font:700 80px/1 var(--serif);letter-spacing:-.02em}
+.offer .terms{font-weight:700;color:var(--wine-muted);letter-spacing:.04em}
+.offer .buy{margin-top:10px}
+.offer .req{font-size:13.5px;color:var(--wine-muted)}
+.ps{margin-top:26px;font-size:18px;color:var(--muted)}
+.ps b{color:var(--ink)}
+footer{padding-block:40px 110px;color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:10px 20px;justify-content:space-between}
+
+/* mobile buy bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--wine);color:var(--wine-ink);padding:10px max(14px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));display:none;align-items:center;gap:12px;justify-content:space-between}
+.bar b{font:700 17px var(--serif)}
+.bar span{display:block;font-size:12.5px;color:var(--wine-muted)}
+.bar .buy{padding:11px 20px;font-size:15px}
+
+/* sketch scene colours: fixed, they picture a video frame */
+.sk .edge{fill:none;stroke:rgba(0,0,0,.16);stroke-width:.8}
+.sk .w{fill:#DDD8D2}.sk .w2{fill:#CFCAD6}.sk .w3{fill:#4A4650}.sk .me{fill:#9A93A0}.sk .me2{fill:#7E7786}.sk .me3{fill:#6E6874}
+.sk .k{fill:#211D27}.sk .wh{fill:#FFFFFF}.sk .ln{fill:#BDB7C4}.sk .ln2{fill:#E7E3EC}.sk .sky{fill:#BCD6EA}.sk .hl{fill:#83AE8E}
+.sk .tb{fill:#CDB79C}.sk .map{fill:#DCEBD8}.sk .stick{fill:#FFF3B5}.sk .old{fill:#E6D2B0}.sk .hand{fill:#B79A88}.sk .gb{fill:#45B8E6;opacity:.7}
+.sk .cool{fill:#6FA8FF}.sk .gray{fill:#8C8C8C}
+.sk .p{fill:var(--kp)}.sk .a{fill:var(--ka)}.sk .t{fill:var(--kt)}.sk tspan.k{fill:#211D27}
+.sk .sh{paint-order:stroke;stroke:rgba(0,0,0,.35);stroke-width:.7}
+.sk .nf{fill:none}
+.sk .stk{fill:none;stroke:#2B2522;stroke-width:1}.sk .stk2{fill:none;stroke:#2B2522;stroke-width:1.4}
+.sk .sw{fill:none;stroke:#fff;stroke-width:1.2}.sk .sww{fill:none;stroke:#fff;stroke-width:1.3;stroke-linecap:round}.sk .stw{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
+.sk .sta{fill:none;stroke:var(--ka);stroke-width:2.2;stroke-linecap:round}.sk .sa{fill:none;stroke:var(--ka);stroke-width:1.3;stroke-linecap:round}
+.sk .stt{fill:none;stroke:var(--kp);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.sk .stx{fill:none;stroke:#E5484D;stroke-width:1.5;stroke-linecap:round}
+.sk .sp{stroke:var(--kp);stroke-width:1.2}.sk .sp3{stroke:var(--kp);stroke-width:3}.sk .spt{fill:none;stroke:var(--kp);stroke-width:3}
+.sk .arm{fill:none;stroke:#9A93A0;stroke-width:6;stroke-linecap:round}.sk .sm{fill:none;stroke:#8D8696;stroke-width:.8}
+.sk .dash{fill:none;stroke:#fff;stroke-width:.7;stroke-dasharray:2 2;opacity:.9}
+.sk .safe-g{display:none}.show-safe .sk .safe-g{display:inline}
+.sk .safe{fill:#E5484D;opacity:.28}
+.sk .safe-l{fill:none;stroke:#E5484D;stroke-width:.6;stroke-dasharray:2 1.5}
+
+@media (max-width:880px){
+  .hero{grid-template-columns:1fr;padding-top:36px;gap:34px}
+  .offer{grid-template-columns:1fr}
+  .offer .right{border-left:0;border-top:2px dashed var(--cream)}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .prose{font-size:17px}
+  .fails,.gets,.fit{grid-template-columns:1fr}
+  .reels{gap:10px}
+  .reel b{font-size:16px}
+  .phone .sk{height:210px}.phone.side .sk{height:165px}.phone{padding:5px;border-radius:20px}.phone .sk{border-radius:16px}
+  .phones{gap:6px}
+  .need{grid-template-columns:1fr}
+  .aff .big small{text-align:left}
+  .bar.on{display:flex}
+}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} .buy{transition:none} .buy:hover{transform:none} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+    <clipPath id="kclip"><rect width="90" height="160" rx="8"/></clipPath>
+    <radialGradient id="kvig"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".6"/></radialGradient>
+    <linearGradient id="kwarm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB347" stop-opacity=".5"/><stop offset="1" stop-color="#FF7A45" stop-opacity=".18"/></linearGradient>
+    <linearGradient id="kfade" x1="0" y1="0" x2="0" y2="1"><stop offset=".25" stop-color="#000" stop-opacity="0"/><stop offset=".85" stop-color="#000" stop-opacity="1"/></linearGradient>
+    <filter id="kblur"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="ksh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.8" flood-opacity=".22"/></filter>
+    <marker id="kah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#2B2522"/></marker>
+    <marker id="kahw" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#fff"/></marker>
+    <marker id="kah2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="var(--ka)"/></marker>
+  </defs></svg>
+
+<div class="heroband on-wine">
+<header class="wrap hero" id="top">
+  <div>
+    <div class="handle">Edit Kit · by @avvydigital_mom</div>
+    <h1>You film it. Claude edits it. <em class="g">You get your evening back.</em></h1>
+    <div class="rule"></div>
+    <p class="sub">Edit Kit is <b>video editing with Claude, with 97 styles</b> to choose from. Pick your styles, hand over your clip, and Claude edits in the background while you get on with your day. It comes back finished, in your brand colors and fonts.</p>
+    <a class="buy js-buy" href="#offer">Get Edit Kit <span class="price">$27</span></a>
+    <p class="micro">Instant download · Lifetime updates · Needs a paid Claude plan with Claude Code on desktop</p>
+  </div>
+  <div class="stage">
+    <div class="phones" aria-label="Three example edits in your brand colors">
+      <div class="phone side l"><svg class="sk" viewBox="0 0 90 160" role="img" aria-label="Sketch of Number Promise"><g clip-path="url(#kclip)"><rect x="0" y="0" width="90" height="160" rx="0" class="w" /><path d="M15 162 C14 122 25 111 45 110 C65 111 76 122 75 162 Z" class="me" /><path d="M40 100 h10 v11 h-10 Z" class="me" /><circle cx="45" cy="92" r="12.5" class="me" /><text x="45" y="62" font-size="46" text-anchor="middle" class="a" style="font-family:var(--kh);font-weight:800" >3</text><text x="45" y="74" font-size="6" text-anchor="middle" class="t" style="font-family:var(--kh);font-weight:800" >WAYS TO START</text></g><rect width="90" height="160" rx="8" class="edge"/></svg></div>
+      <div class="phone"><svg class="sk" viewBox="0 0 90 160" role="img" aria-label="Sketch of Marker Word"><g clip-path="url(#kclip)"><rect x="0" y="0" width="90" height="160" rx="0" class="w" /><path d="M15 162 C14 122 25 111 45 110 C65 111 76 122 75 162 Z" class="me" /><path d="M40 100 h10 v11 h-10 Z" class="me" /><circle cx="45" cy="92" r="12.5" class="me" /><rect x="52" y="119.5" width="26" height="9" rx="1.5" class="a" /><text x="45" y="126.5" font-size="6.2" text-anchor="middle" class="t" style="font-family:var(--kc);font-weight:700" >this changes <tspan class="k">everything</tspan></text></g><rect width="90" height="160" rx="8" class="edge"/></svg></div>
+      <div class="phone side r"><svg class="sk" viewBox="0 0 90 160" role="img" aria-label="Sketch of Comment Keyword"><g clip-path="url(#kclip)"><rect x="0" y="0" width="90" height="160" rx="0" class="w" /><path d="M15 162 C14 122 25 111 45 110 C65 111 76 122 75 162 Z" class="me" /><path d="M40 100 h10 v11 h-10 Z" class="me" /><circle cx="45" cy="92" r="12.5" class="me" /><rect x="12" y="18" width="66" height="44" rx="6" class="wh" /><text x="45" y="33" font-size="6.5" text-anchor="middle" class="k" style="font-family:var(--kc);font-weight:700" >Comment</text><text x="45" y="52" font-size="17" text-anchor="middle" class="a" style="font-family:var(--kh);font-weight:800" >PLAN</text></g><rect width="90" height="160" rx="8" class="edge"/></svg></div>
+    </div>
+    <div class="tryline">
+      <span class="hand">tap to try your brand →</span>
+      <div class="swatches" id="swatches" role="group" aria-label="Brand color examples"></div>
+    </div>
+  </div>
+</header>
+</div>
+
+<section class="wrap proof" aria-labelledby="v-title">
+  <div class="proof-head">
+    <div>
+      <div class="eyebrow">Edited with Claude</div>
+      <h2 id="v-title">Real videos from <em class="w">my own feed</em></h2>
+    </div>
+    <p class="note">Captions, highlight words, cards and the comment call to action. No editing app, no timeline. Tap for sound.</p>
+  </div>
+  <div class="reels">
+    <div class="reel">
+      <div class="frame"><video src="demo-buyers.mp4" poster="demo-buyers.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Edited video: watching but not buying"></video><button class="sound" type="button">Sound on</button></div>
+      <div><span class="tag">Reel</span><b>"Watching but not buying?"</b><span>Talking head, keyword captions, pop-in cards</span></div>
+    </div>
+    <div class="reel">
+      <div class="frame"><video src="demo-client.mp4" poster="demo-client.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Edited video: how a 300-view post got me a 3-month client"></video><button class="sound" type="button">Sound on</button></div>
+      <div><span class="tag">Reel</span><b>"How a 300-view post got me a 3-month client"</b><span>Title hook, word captions, DM card, comment ending</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap narrow sec" aria-labelledby="p-title">
+  <div class="eyebrow">Sound familiar?</div>
+  <h2 id="p-title">Filming takes five minutes. <em class="w">Editing takes the evening you don't have.</em></h2>
+  <div class="prose">
+    <p>You filmed it during nap time. Or in the car before school pickup. Or at 10pm with the kitchen finally quiet.</p>
+    <p class="muted">Then it sat in your camera roll. Cutting the pauses. Captions word by word. Fonts that never quite match your brand. Text that covers your face or hides behind the TikTok buttons.</p>
+    <p>So the videos pile up. Or you post them plain and watch people scroll past.</p>
+  </div>
+  <div class="fails">
+    <div class="fail"><h3>Editing apps</h3><p>Need you at the screen, tapping, for hours.</p></div>
+    <div class="fail"><h3>Templates</h3><p>Make your video look like everyone else's who bought the same pack.</p></div>
+    <div class="fail"><h3>Hiring an editor</h3><p>Works until the monthly bill arrives.</p></div>
+    <div class="fail"><h3>"Make it look good"</h3><p>Gets you a guess. Claude can edit video, but it needs to know exactly what you want.</p></div>
+    <div class="fail win"><h3>Edit Kit</h3><p>Tells Claude exactly what you want, in a few short codes, in your brand. Then it does the work.</p></div>
+  </div>
+</section>
+
+<section class="on-wine" aria-labelledby="m-title">
+  <div class="wrap narrow sec">
+    <div class="eyebrow">Meet Edit Kit</div>
+    <h2 id="m-title">97 editing styles. <em class="g">Each one has a short code.</em></h2>
+    <div class="prose">
+      <div class="codes"><span class="code">OP3<i>giant number hook</i></span><span class="code">TX2<i>highlighter keyword</i></span><span class="code">EN2<i>"Comment PLAN" card</i></span></div>
+      <p class="muted">Pick five or six, mix them however you like, and hand them to Claude with your clip, your audio and any extra footage.</p>
+      <p class="walk">Then walk away.</p>
+      <p>Claude cuts the silences, writes the captions, builds the graphics, keeps every word off your face and clear of the app buttons, and checks its own work. You approve the plan, and the finished video lands in your folder.</p>
+      <p class="muted">No timeline to scrub. No staring at the screen. Most edits take about 10 to 20 minutes.</p>
+      <p><b>Your brand, every time.</b> <span class="muted">Set your colors and fonts once and every caption, title and card comes out on-brand. Rebranding? Change it in one sentence. Editing for clients? Save a brand for each one.</span></p>
+      <p class="names"><b>A few of the 97:</b> Bold Question, Myth Stamp, Karaoke Fill, Word Pop, Brand Canvas, Checklist Card, Title Behind You, Golden Hour, Comment Keyword, Part 2 Tease.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap sec" aria-labelledby="w-title">
+  <div class="eyebrow">Exactly what you get</div>
+  <h2 id="w-title">Everything inside <em class="w">Edit Kit</em></h2>
+  <div class="gets">
+    <div class="get"><span class="n">The engine</span><h3>The Edit Kit skill for Claude</h3><p>The instructions that turn Claude into your video editor: how to cut, caption, build each style, check the safe zone and deliver a finished file.</p></div>
+    <div class="get"><span class="n">The menu</span><h3>97 styles in 11 groups</h3><p>Openers, captions, layouts, b-roll, graphics, transitions, pacing, showpiece effects, audio, color looks, and endings with calls to action.</p></div>
+    <div class="get"><span class="n">The guide</span><h3>Visual style guide</h3><p>A sketch of every style, so you see it before you choose it. Opens on your computer or phone.</p></div>
+    <div class="get"><span class="n">Your look</span><h3>Built-in brand setup</h3><p>Try your colors in the guide and watch all 97 styles change to match. Claude remembers them for every edit.</p></div>
+    <div class="get"><span class="n">Shortcuts</span><h3>7 ready-made style mixes</h3><p>Quick Tips, Recipe or DIY, Screen Tutorial, Travel Story, Product Review, Glow-Up Reveal, and Calm and Premium.</p></div>
+    <div class="get"><span class="n">No hidden words</span><h3>Safe-zone preview</h3><p>See where TikTok and Reels buttons cover the screen, so your words never get hidden.</p></div>
+    <div class="get"><span class="n">For client work</span><h3>Client-ready licence</h3><p>Use it for your own videos and for videos you edit for paying clients.</p></div>
+    <div class="get"><span class="n">Forever</span><h3>Every future update, free</h3><p>New styles and improvements as I add them.</p></div>
+    <div class="get span"><span class="n">Real help</span><h3>Me, one DM away</h3><p>Stuck on setup or a style? Message me on Instagram at <a href="https://instagram.com/avvydigital_mom">@avvydigital_mom</a> and I'll help you get it working.</p></div>
+  </div>
+</section>
+
+<section class="wrap sec" style="padding-top:10px" aria-labelledby="f-title">
+  <div class="eyebrow">Is it for you?</div>
+  <h2 id="f-title">Made for <em class="w">moms and creators</em></h2>
+  <div class="fit">
+    <div class="col yes"><h3>Edit Kit is for you if you're</h3>
+      <ul>
+        <li><span class="mk">✓</span><div><b>A mom building a brand</b> <span>in the time between everything else.</span></div></li>
+        <li><span class="mk">✓</span><div><b>A creator</b> <span>who films plenty and posts less than you want to.</span></div></li>
+        <li><span class="mk">✓</span><div><b>A UGC creator or social media manager</b> <span>who needs a consistent look for every client.</span></div></li>
+        <li><span class="mk">✓</span><div><b>Already paying for Claude</b> <span>and want it to do more than write.</span></div></li>
+      </ul>
+    </div>
+    <div class="col no"><h3>It's not for you if</h3>
+      <ul>
+        <li><span class="mk">✕</span><div><b>You only have a phone.</b> <span>Editing runs in the Claude desktop app on a Mac or Windows computer.</span></div></li>
+        <li><span class="mk">✕</span><div><b>You don't plan to pay for Claude.</b> <span>Edit Kit needs a paid Claude plan that includes Claude Code.</span></div></li>
+        <li><span class="mk">✕</span><div><b>You edit long YouTube videos.</b> <span>Edit Kit is built for vertical short-form video.</span></div></li>
+      </ul>
+    </div>
+  </div>
+  <div class="need">
+    <span class="hand">what you need</span>
+    <ul>
+      <li>A Mac or Windows computer</li>
+      <li>The Claude desktop app on a paid plan with Claude Code</li>
+      <li>A vertical video you filmed. No editing experience, no editing software to buy.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="wrap" aria-labelledby="a-title">
+  <div class="aff on-wine">
+    <div>
+      <div class="eyebrow">Affiliate program</div>
+      <h2 id="a-title">Share it and <em class="g">earn 60%</em></h2>
+      <p>Love Edit Kit? Join the affiliate program and earn 60% commission on every sale made through your link. Share it with your audience, your mom group or your clients.</p>
+    </div>
+    <div class="big">60%<small>on every sale</small></div>
+  </div>
+</section>
+
+<section class="wrap narrow sec" aria-labelledby="q-title">
+  <div class="eyebrow">Questions</div>
+  <h2 id="q-title">Good to know</h2>
+  <div class="faq">
+    <details><summary>I've never edited a video. Can I do this?</summary><p>Yes. You tap the styles you like, and Claude does the editing. You approve the plan before anything is made.</p></details>
+    <details><summary>Do I have to watch it work?</summary><p>No. Hand over your clip and styles, check the plan when Claude asks, and come back to a finished video.</p></details>
+    <details><summary>What videos does it work for?</summary><p>Any vertical video. Talking to camera, tutorials, recipes, travel, product reviews, vlogs, UGC and screen recordings.</p></details>
+    <details><summary>Will my original video be changed?</summary><p>Never. Claude works on a copy and saves each version as a new file.</p></details>
+    <details><summary>Can I use it for clients?</summary><p>Yes. Edit for yourself and your paying clients. You can't resell or share the kit files.</p></details>
+    <details><summary>Is it a subscription?</summary><p>No. $27 once, with every future update included. You'll need your own paid Claude plan.</p></details>
+    <details><summary>What if I get stuck?</summary><p>DM me on Instagram at @avvydigital_mom. I'll help you get it working.</p></details>
+  </div>
+</section>
+
+<section class="wrap sec" style="padding-top:0" id="offer" aria-labelledby="o-title">
+  <div class="offer">
+    <div class="left">
+      <div class="eyebrow">Edit Kit</div>
+      <h2 id="o-title">Video editing with Claude, <em class="w">97 styles</em></h2>
+      <ul>
+        <li>The Edit Kit skill for Claude</li>
+        <li>Visual style guide with 97 styles</li>
+        <li>7 ready-made style mixes</li>
+        <li>Built-in brand setup</li>
+        <li>Client-ready licence</li>
+        <li>Every future update</li>
+        <li>My help when you need it</li>
+      </ul>
+    </div>
+    <div class="right on-wine">
+      <span class="terms">Launch price · one time</span>
+      <span class="amt">$27</span>
+      <span class="terms">Instant download</span>
+      <a class="buy js-buy" href="#offer">Get Edit Kit now</a>
+      <span class="req">Needs a paid Claude plan with Claude Code on a Mac or Windows computer.</span>
+    </div>
+  </div>
+  <p class="ps"><b>PS.</b> That video in your camera roll doesn't need another evening of your life. Pick your styles, hand it to Claude, and go do something else. It comes back finished, in your brand.</p>
+</section>
+
+<footer class="wrap">
+  <span>© 2026 Avvydigitalmom · <a href="https://instagram.com/avvydigital_mom">@avvydigital_mom</a></span>
+  <span>Claude is a product of Anthropic. Edit Kit is an independent product and is not made or endorsed by Anthropic.</span>
+</footer>
+
+<div class="bar" id="bar">
+  <div><b>Edit Kit · $27</b><span>97 styles · lifetime updates</span></div>
+  <a class="buy js-buy" href="#offer">Get it</a>
+</div>
+
+<script>
+/* ---- EDIT THIS LINE ---- */
+const CHECKOUT_URL = 'https://avvydigitalmom.com/shop/995d8448-8e8d-446d-a855-9ffe5d9ea7bf';   // your Beacons checkout link, e.g. 'https://beacons.ai/avvydigital_mom/editkit'
+/* ------------------------ */
+(function () {
+  const $ = id => document.getElementById(id);
+  if (CHECKOUT_URL) document.querySelectorAll('.js-buy').forEach(a => { a.href = CHECKOUT_URL; a.rel = 'noopener'; });
+
+  const SETS = [['#6B1A2C', '#E2C47A', 'Burgundy and gold'], ['#C9858A', '#F5D6D6', 'Blush'], ['#2F3CCB', '#FFC93C', 'Cobalt and sun'], ['#0F5F4A', '#F2C14E', 'Forest and gold'], ['#111111', '#F4F1E8', 'Mono'], ['#7A3EF0', '#7CF2C9', 'Violet and mint']];
+  const root = document.documentElement.style;
+  $('swatches').innerHTML = SETS.map(([p, a, n], i) => `<button class="swatch" type="button" style="--c1:${p};--c2:${a}" aria-label="${n}" aria-pressed="${i === 0}" data-i="${i}"></button>`).join('');
+  $('swatches').addEventListener('click', e => {
+    const b = e.target.closest('.swatch'); if (!b) return;
+    const [p, a] = SETS[+b.dataset.i]; root.setProperty('--kp', p); root.setProperty('--ka', a);
+    document.querySelectorAll('.swatch').forEach(x => x.setAttribute('aria-pressed', x === b));
+  });
+
+  // videos: autoplay muted, tap for sound, only one plays with sound at a time
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vids = [...document.querySelectorAll('.reel video')];
+  vids.forEach(v => { if (reduce) { v.removeAttribute('autoplay'); v.pause(); } else v.play().catch(() => {}); });
+  document.querySelectorAll('.sound').forEach(btn => btn.addEventListener('click', () => {
+    const v = btn.parentElement.querySelector('video'); const on = v.muted;
+    vids.forEach(o => { if (o !== v) { o.muted = true; o.parentElement.querySelector('.sound').textContent = 'Sound on'; } });
+    v.muted = !on; if (on) { v.currentTime = 0; v.play().catch(() => {}); }
+    btn.textContent = on ? 'Sound off' : 'Sound on';
+  }));
+
+  const hero = document.querySelector('.hero .buy'), offer = $('offer'), bar = $('bar');
+  if ('IntersectionObserver' in window) {
+    const seen = new Set();
+    const io = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)); bar.classList.toggle('on', seen.size === 0); });
+    io.observe(hero); io.observe(offer);
+  }
+})();
+</script>
+</body>
+</html>
